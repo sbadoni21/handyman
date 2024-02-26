@@ -7,7 +7,7 @@ class User {
   final String status;
   final String uid;
   final String type;
-    final bool isGoogleUser;
+  final bool isGoogleUser;
   final num wallet;
   final String dob;
   final String location;

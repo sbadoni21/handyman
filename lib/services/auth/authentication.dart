@@ -10,7 +10,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:random_string/random_string.dart';
 
-final authenticationServicesProvider = Provider<AuthenticationServices>((ref) {
+final authenticationServicesProviderr = Provider<AuthenticationServices>((ref) {
   return AuthenticationServices();
 });
 
@@ -18,7 +18,7 @@ class AuthenticationServices {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-
+  bool isFirstSignUp = false;
   Future<User?> signIn(String email, String password) async {
     try {
       UserCredential userCredential =
@@ -79,6 +79,7 @@ class AuthenticationServices {
           bool userExists = await _userExists(uid);
 
           if (!userExists) {
+            isFirstSignUp = true;
             final email = userCredential.user!.providerData[0].email;
             final displayName = userCredential.user!.displayName;
             final status = 'active';
@@ -196,6 +197,7 @@ Future<User?> registerUser({
 
       if (userCredential.user != null) {
         String? photoURL;
+       isFirstSignUp = true;
 
         if (userImage != null) {
           final Reference userStorageReference = _storage.ref().child(

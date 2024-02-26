@@ -48,7 +48,6 @@ dependencies:
   lottie:
   crypto: 
 
-  phonepe_payment_sdk:
 
 dev_dependencies:
   flutter_test:
@@ -57,3 +56,30 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+        - assets/images/add.png
+        - assets/images/applogo.png
+        - assets/images/audioBooks.png
+        - assets/images/classBasedCourse.png
+        - assets/images/companylogo.png
+        - assets/images/featuredcourses.png
+        - assets/images/google.png
+        - assets/images/placeholder_image.png
+        - assets/lottie/lockanimation.json
+        - assets/lottie/tandc.json
+        - assets/lottie/animation1.json
+        - assets/lottie/animation2.json
+        - assets/lottie/animation3.json
+        - assets/lottie/animation4.json
+        - assets/images/infopic1.png
+        - assets/images/infopic2.png
+        - assets/images/infopic3.png
+        - assets/images/infopic4.png
+
+
+
+
+
+
+

@@ -1,12 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:handyman/models/user.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/home_screen.dart';
+import 'package:handyman/screens/infoscreen.dart';
 import 'package:handyman/screens/sign_up_page.dart';
 import 'package:handyman/services/auth/authentication.dart';
 import 'package:handyman/utils/app_colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   @override
@@ -19,6 +20,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   AuthenticationServices authenticationService = AuthenticationServices();
   String? _selectedDate;
   bool isLoading = false;
+  @override
+  void initState() {
+    super.initState();
+    checkAndRequestPermissions();
+  }
+
+  Future<void> checkAndRequestPermissions() async {
+    var status = await Permission.camera.status;
+    if (!status.isGranted) {
+      await Permission.camera.request();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,15 +141,32 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       User? user = await ref
                           .read(userStateNotifierProvider.notifier)
                           .signIn(email, password);
-
                       if (user != null) {
                         setState(() {
                           isLoading = false;
                         });
-                        Navigator.push(
+                        if (ref
+                            .read(authenticationServicesProviderr)
+                            .isFirstSignUp) {
+                          // Navigate to the app info screen
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomeScreen()));
+                                builder: (context) => InfoScreen()),
+                          );
+                        } else {
+                          // Navigate to the home screen or another screen
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()),
+                          );
+                        }
+
+                        // Reset the isFirstSignUp flag after navigation
+                        ref.read(authenticationServicesProvider).isFirstSignUp =
+                            false;
+                        ;
                         print('Login successful');
                       } else {
                         print('Login failed');
