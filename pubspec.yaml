@@ -1,0 +1,59 @@
+name: handyman
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  circular_countdown_timer: 
+  firebase_core: 
+  firebase_auth:
+  firebase_messaging:
+  firebase_storage:
+  logger: 
+  animated_splash_screen: 
+  page_transition: 
+  google_sign_in: 
+  cloud_firestore: 
+  random_string: 
+  email_validator: 
+  flutter_local_notifications: 
+  shared_preferences: 
+  get: 
+  ionicons:
+  carousel_slider: 
+  video_player: 
+  intl: 
+  google_fonts: 
+  http: 
+  url_launcher: 
+  permission_handler: 
+  image_picker: 
+  ffi: 
+  meta: 
+  json_annotation: 
+  async: 
+  chewie:
+  expandable_text:
+  flutter_rating_bar: 
+  flutter_riverpod:
+  flutter_hooks: 
+  hooks_riverpod: 
+  geocoding: 
+  geolocator:
+  lottie:
+  crypto: 
+
+  phonepe_payment_sdk:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
