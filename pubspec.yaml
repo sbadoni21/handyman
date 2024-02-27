@@ -91,6 +91,12 @@ flutter:
         - assets/images/interiorDesign.png
         - assets/images/pestControl.png
         - assets/images/cctvInstallation.png
+        - assets/images/weldingMetalwork.png
+        - assets/images/plasteringDrywall.png
+        - assets/images/homeCleaning.png
+        - assets/images/locksmith.png
+        - assets/images/ceilingFan.png
+        - assets/images/drainageMaintenance.png
 
 
 
