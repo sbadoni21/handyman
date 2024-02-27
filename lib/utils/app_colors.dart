@@ -15,6 +15,11 @@ TextStyle myTextStylefontsize19White = GoogleFonts.roboto(
   color: Colors.white,
   fontSize: 19,
 );
+TextStyle myTextStylefontsize12WhiteW300 = GoogleFonts.roboto(
+  fontWeight: FontWeight.w400,
+  color: Colors.white,
+  fontSize: 12,
+);
 TextStyle myTextStylefontsize12Grey = GoogleFonts.roboto(
   fontWeight: FontWeight.w400,
   color: const Color.fromRGBO(85, 85, 85, 1),

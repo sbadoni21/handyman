@@ -76,8 +76,21 @@ flutter:
         - assets/images/infopic2.png
         - assets/images/infopic3.png
         - assets/images/infopic4.png
-
-
+        - assets/images/plumbingRepairs.png
+        - assets/images/electricalWork.png
+        - assets/images/painting.png
+        - assets/images/Carpentry.png
+        - assets/images/applianceInstallation.png
+        - assets/images/furnitureAssembly.png
+        - assets/images/gardening.png
+        - assets/images/generalMaintenance.png
+        - assets/images/tilingFlooring.png
+        - assets/images/hvacMaintenance.png
+        - assets/images/roofingRepairs.png
+        - assets/images/windowDoor.png
+        - assets/images/interiorDesign.png
+        - assets/images/pestControl.png
+        - assets/images/cctvInstallation.png
 
 
 

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:handyman/models/user.dart';
@@ -26,8 +25,8 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white,
-      title: Text('Dosso21', style: myTextStylefontsize24Black),
+      backgroundColor: Colors.black,
+      title: Text('Home Hero', style: myTextStylefontsize24White),
       centerTitle: true,
       leading: GestureDetector(
         onTap: () {
@@ -38,8 +37,11 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
           }
         },
         child: widget.scaffoldKey != null
-            ? const Icon(Icons.menu)
-            : const Icon(Icons.arrow_back),
+            ? const Icon(
+                Icons.menu,
+                color: Colors.white,
+              )
+            : const Icon(Icons.arrow_back, color: Colors.white),
       ),
       actions: [
         // IconButton(

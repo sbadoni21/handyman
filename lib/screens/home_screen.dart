@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:handyman/models/categories_model.dart';
 import 'package:handyman/models/user.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/menu_screen.dart';
+import 'package:handyman/widgets/bottomnavbar_component.dart';
+import 'package:handyman/widgets/categories_component.dart';
 import 'package:handyman/widgets/customappbar.dart';
-import 'package:ionicons/ionicons.dart';
+import 'package:handyman/widgets/heading_component.dart';
 
 final userProvider = Provider<User?>((ref) {
   return ref.watch(userStateNotifierProvider);
@@ -19,8 +22,9 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   late User? user;
+  int currentIndex = 0;
+
   late PageController _pageController;
-  int _selectedIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -32,7 +36,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      currentIndex = index;
       _pageController.animateToPage(
         index,
         duration: const Duration(milliseconds: 300),
@@ -47,47 +51,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   ) {
     return Scaffold(
       key: _scaffoldKey,
+      backgroundColor: Colors.black,
       appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
       drawer: const MenuScreen(),
       drawerEnableOpenDragGesture: true,
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: _selectedIndex == 0
-                ? Icon(Ionicons.home)
-                : Icon(Ionicons.home_outline),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: _selectedIndex == 1
-                ? Icon(Ionicons.trophy)
-                : Icon(Ionicons.trophy_outline),
-            label: 'My Contests',
-          ),
-          BottomNavigationBarItem(
-            icon: _selectedIndex == 2
-                ? Icon(Ionicons.gift)
-                : Icon(Ionicons.gift_outline),
-            label: 'Rewards',
-          ),
-          BottomNavigationBarItem(
-            icon: _selectedIndex == 3
-                ? Icon(Ionicons.medal)
-                : Icon(Ionicons.medal_outline),
-            label: 'Winners',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        unselectedItemColor: Colors.grey,
-        selectedItemColor: Colors.black,
-        onTap: _onItemTapped,
-        showUnselectedLabels: true,
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
       ),
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {
           setState(() {
-            _selectedIndex = index;
+            currentIndex = index;
           });
         },
         children: [
@@ -103,46 +83,119 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 10),
-          _buildUpcomingContests(),
+          _buildCategories(),
+          const SizedBox(
+            height: 10,
+          )
+          //  _buildTopServiceProviders() ,
         ],
       ),
     );
   }
 
-  Widget _buildUpcomingContests() {
-    return Placeholder();
-    //   Consumer(
-    //     builder: (context, ref, child) {
-
-    //       if (contestsData is AsyncData<List<Contest>>) {
-    //         final upcomingContests = contestsData.value;
-
-    //         return Column(
-    //           crossAxisAlignment: CrossAxisAlignment.start,
-    //           children: [
-    //             const Padding(
-    //               padding: EdgeInsets.all(16.0),
-    //               child: Text(
-    //                 'Upcoming Contests',
-    //                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-    //               ),
-    //             ),
-    //             Column(
-    //               children: upcomingContests.map((contest) {
-    //                 return ContestCard(context: context, contest: contest);
-    //               }).toList(),
-    //             ),
-    //           ],
-    //         );
-    //       } else if (contestsData is AsyncLoading) {
-    //         return CircularProgressIndicator();
-    //       } else if (contestsData is AsyncError) {
-    //         return Text('Error loading contests: ${contestsData.error}');
-    //       } else {
-    //         return Text('Unexpected state: $contestsData');
-    //       }
-    //     },
-    //   );
-    // }
+  Widget _buildCategories() {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const HeadingTitle(title: "Categories"),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 340,
+            width: double.infinity,
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 1,
+                crossAxisCount: 3,
+                crossAxisSpacing: 2.0,
+                mainAxisSpacing: 2.0,
+              ),
+              scrollDirection: Axis.horizontal,
+              itemCount: categoriesData.length,
+              itemBuilder: (context, index) {
+                Category category = categoriesData[index];
+                return GestureDetector(
+                  onTap: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) =>
+                    //         AllCoursesPage(selectedCategory: category),
+                    //   ),
+                    // );
+                  },
+                  child: CategoryItem(
+                    imgUrl: category.image,
+                    text: category.name,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
+
+  // Widget _buildTopServiceProviders() {
+  //   return Consumer(
+  //             builder: (context, watch, child) {
+  //               return carousalAsyncValue.when(
+  //                 data: (carousalList) {
+  //                   return CarouselSlider(
+  //                     options: CarouselOptions(
+  //                       scrollPhysics: const BouncingScrollPhysics(
+  //                         decelerationRate: ScrollDecelerationRate.normal,
+  //                       ),
+  //                       height: 229.0,
+  //                       viewportFraction: 1,
+  //                       aspectRatio: 16 / 9,
+  //                       enableInfiniteScroll: true,
+  //                       autoPlay: true,
+  //                       autoPlayInterval: const Duration(seconds: 3),
+  //                       autoPlayAnimationDuration:
+  //                           const Duration(milliseconds: 800),
+  //                       autoPlayCurve: Curves.fastOutSlowIn,
+  //                       enlargeCenterPage: true,
+  //                       enlargeFactor: 0.3,
+  //                       scrollDirection: Axis.horizontal,
+  //                     ),
+  //                     items: carousalList.map((carousal) {
+  //                       return Builder(
+  //                         builder: (BuildContext context) {
+  //                           return GestureDetector(
+  //                             onTap: () async {
+  //                               Course? course = await DataService()
+  //                                   .fetchCarousalCourse(carousal);
+  //                               Navigator.push(
+  //                                   context,
+  //                                   MaterialPageRoute(
+  //                                       builder: (context) => CourseDetailPage(
+  //                                           courses: course!)));
+  //                             },
+  //                             child: Image.network(
+  //                               carousal.photo,
+  //                               fit: BoxFit.fill,
+  //                             ),
+  //                           );
+  //                         },
+  //                       );
+  //                     }).toList(),
+  //                   );
+  //                 },
+  //                 loading: () {
+  //                   return const Center(
+  //                     child: CircularProgressIndicator(),
+  //                   );
+  //                 },
+  //                 error: (error, stackTrace) {
+  //                   return Center(
+  //                     child: Text('Error: $error'),
+  //                   );
+  //                 },
+  //               );
+  //             },
+  //           );
+  // }
 }
