@@ -54,10 +54,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               backgroundColor: bgColor,
             ),
             icon: Icon(
-              Icons.search_rounded,
+              Icons.library_books,
             ),
           ),
-          label: "Search",
+          label: "Bookings",
         ),
         BottomNavigationBarItem(
           icon: IconButton(

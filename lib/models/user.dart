@@ -43,7 +43,6 @@ class User {
       wallet: map['wallet']?? "",
       type: map['type'] ?? "",
       location: map['location'] ?? "",
-      
       myContest: List<String>.from(map['myContest'] ?? []),
     );
   }

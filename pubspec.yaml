@@ -47,6 +47,7 @@ dependencies:
   geolocator:
   lottie:
   crypto: 
+  animated_text_kit:
 
 
 dev_dependencies:
