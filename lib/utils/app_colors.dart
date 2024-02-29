@@ -10,84 +10,85 @@ const bgsecondary = Color.fromRGBO(85, 85, 85, 1);
 const cardColor = Color.fromRGBO(240, 243, 248, 1);
 const JoinGreen = Color.fromRGBO(0, 170, 0, 1);
 //text styles
-TextStyle myTextStylefontsize19White = GoogleFonts.roboto(
+TextStyle myTextStylefontsize19White = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,
   color: Colors.white,
   fontSize: 19,
 );
-TextStyle myTextStylefontsize12WhiteW300 = GoogleFonts.roboto(
+TextStyle myTextStylefontsize12WhiteW300 = GoogleFonts.raleway(
   fontWeight: FontWeight.w400,
   color: Colors.white,
   fontSize: 12,
 );
-TextStyle myTextStylefontsize12Grey = GoogleFonts.roboto(
+TextStyle myTextStylefontsize12Grey = GoogleFonts.raleway(
   fontWeight: FontWeight.w400,
   color: const Color.fromRGBO(85, 85, 85, 1),
   fontSize: 12,
 );
-TextStyle myTextStylefontsize12Black = GoogleFonts.roboto(
+TextStyle myTextStylefontsize12Black = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,
   color: Colors.black,
   fontSize: 12,
 );
-TextStyle myTextStylefontsize16Grey = GoogleFonts.roboto(
+TextStyle myTextStylefontsize16Grey = GoogleFonts.raleway(
   fontWeight: FontWeight.w400,
   color: const Color.fromRGBO(85, 85, 85, 1),
   fontSize: 19,
 );
-TextStyle myTextStylefontsize16Black = GoogleFonts.roboto(
+TextStyle myTextStylefontsize16Black = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,
   color: Colors.black,
   fontSize: 19,
 );
-TextStyle myTextStylefontsize20Grey = GoogleFonts.roboto(
+TextStyle myTextStylefontsize20Grey = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,
   color: const Color.fromRGBO(85, 85, 85, 1),
   fontSize: 20,
 );
 
-TextStyle myTextStylefontsize19Black = GoogleFonts.roboto(
+TextStyle myTextStylefontsize19Black = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,
   color: Colors.black,
   fontSize: 19,
 );
 
-TextStyle myTextStylefontsize15Grey = GoogleFonts.roboto(
+TextStyle myTextStylefontsize15Grey = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,
   color: Colors.black,
   fontSize: 15,
 );
-TextStyle myTextStylefontsize14 = TextStyle(
-  fontFamily: 'Urbanist',
-  fontSize: 14.0,
-  fontStyle: FontStyle.normal,
+TextStyle myTextStylefontsize14BlackW400 = GoogleFonts.raleway(
   fontWeight: FontWeight.w400,
-  color: bgColor,
+  color: Colors.black,
+  fontSize: 14,
 );
-TextStyle myTextStylefontsize14White = TextStyle(
-  fontFamily: 'Urbanist',
-  fontSize: 14.0,
-  fontStyle: FontStyle.normal,
+TextStyle myTextStylefontsize14GreyW700 = GoogleFonts.raleway(
+  fontWeight: FontWeight.w700,
+  color: Colors.grey,
+  fontSize: 14,
+);
+TextStyle myTextStylefontsize14WhiteW400 = GoogleFonts.raleway(
   fontWeight: FontWeight.w400,
   color: Colors.white,
+  fontSize: 14,
 );
 
-TextStyle myTextStylefontsize24Bgcolor = GoogleFonts.roboto(
+TextStyle myTextStylefontsize24Bgcolor = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,
   color: bgColor,
   fontSize: 24,
 );
-TextStyle myTextStylefontsize24Black = GoogleFonts.roboto(
+TextStyle myTextStylefontsize24Black = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,
   color: Colors.black,
   fontSize: 24,
 );
-TextStyle myTextStylefontsize24White = GoogleFonts.roboto(
+TextStyle myTextStylefontsize24White = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,
   color: Colors.white,
   fontSize: 24,
 );
-TextStyle myTextStylefontsize24Grey = GoogleFonts.roboto(
+TextStyle myTextStylefontsize24Grey = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,
   color: const Color.fromRGBO(85, 85, 85, 1),
   fontSize: 24,

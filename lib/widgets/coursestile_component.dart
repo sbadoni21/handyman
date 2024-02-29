@@ -40,7 +40,7 @@ class Tiles extends StatelessWidget {
                   ),
                   child: Text(
                     serviceProvider.rating,
-                    style: myTextStylefontsize14,
+                    style: myTextStylefontsize14BlackW400,
                   )),
             ),
           ],

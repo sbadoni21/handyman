@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:handyman/models/service_provider_model.dart';
 import 'package:riverpod/riverpod.dart';
 final ServiceProviderService = FutureProvider<List<ServiceProvider>>((ref) async { 
-  final serviceProviderData = ServiceProviderData();
+  final serviceProviderData = TopServiceProviderData();
   return serviceProviderData.topServiceProviders();
 });
 
-class ServiceProviderData {
+class TopServiceProviderData {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<List<ServiceProvider>> topServiceProviders() async {

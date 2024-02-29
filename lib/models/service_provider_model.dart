@@ -9,7 +9,8 @@ class ServiceProvider {
   final String photo;
   final String rating;
   final List<Review> reviews;
-  final String serviceCategory;
+  final List<ServiceCategories> serviceCategories;
+  final List<ServiceSubCategories> serviceSubCategories;
   final int serviceCharge;
   final String serviceType;
   final String totalServices;
@@ -25,7 +26,8 @@ class ServiceProvider {
     required this.photo,
     required this.rating,
     required this.reviews,
-    required this.serviceCategory,
+    required this.serviceCategories,
+    required this.serviceSubCategories,
     required this.serviceCharge,
     required this.serviceType,
     required this.totalServices,
@@ -45,7 +47,14 @@ class ServiceProvider {
       reviews: (map['reviews'] as List<dynamic>)
           .map((review) => Review.fromMap(review))
           .toList(),
-      serviceCategory: map['serviceCategory'],
+      serviceCategories: (map['serviceCategories'] as List<dynamic>)
+          .map((serviceCategories) =>
+              ServiceCategories.fromMap(serviceCategories))
+          .toList(),
+      serviceSubCategories: (map['serviceSubCategories'] as List<dynamic>)
+          .map((serviceSubCategories) =>
+              ServiceSubCategories.fromMap(serviceSubCategories))
+          .toList(),
       serviceCharge: map['serviceCharge'],
       serviceType: map['serviceType'],
       totalServices: map['totalServices'],
@@ -70,5 +79,68 @@ class Review {
       customerRating: map['customerRating'],
       customerReview: map['customerReview'],
     );
+  }
+}
+
+class ServiceCategories {
+  final String serviceCategory;
+  final String serviceCategoryUID;
+
+  ServiceCategories({
+    required this.serviceCategory,
+    required this.serviceCategoryUID,
+  });
+
+  factory ServiceCategories.fromMap(Map<String, dynamic> map) {
+    return ServiceCategories(
+      serviceCategory: map['serviceCategory'],
+      serviceCategoryUID: map['serviceCategoryUID'],
+    );
+  }
+}
+
+class ServiceSubCategories {
+  final num subServiceCategoryRate;
+  final String subServiceCategoryUID;
+  final List<SubServiceCategoryReviews>? subServiceCategoryReviews;
+  ServiceSubCategories({
+    required this.subServiceCategoryRate,
+    required this.subServiceCategoryUID,
+    this.subServiceCategoryReviews,
+  });
+
+  factory ServiceSubCategories.fromMap(Map<String, dynamic> map) {
+    return ServiceSubCategories(
+      subServiceCategoryRate: map['subServiceCategoryRate'],
+      subServiceCategoryUID: map['subServiceCategoryUID'],
+      subServiceCategoryReviews: (map['reviews'] as List<dynamic>)
+              .map((review) => SubServiceCategoryReviews.fromMap(review))
+              .toList() ??
+          [],
+    );
+  }
+}
+
+class SubServiceCategoryReviews {
+  final String customerName;
+  final String customerRating;
+  final String customerReview;
+  final String customerOrderId;
+  final String customerUID;
+
+  SubServiceCategoryReviews(
+      {required this.customerName,
+      required this.customerRating,
+      required this.customerReview,
+      required this.customerOrderId,
+      required this.customerUID});
+
+  factory SubServiceCategoryReviews.fromMap(Map<String, dynamic> map) {
+    return SubServiceCategoryReviews(
+        customerName: map['customerName'],
+        customerRating: map['customerRating'],
+        customerReview: map['customerReview'],
+        customerOrderId: map['customerOrderId'],
+        customerUID: map['customerUID']);
   }
 }

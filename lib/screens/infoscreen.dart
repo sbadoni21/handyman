@@ -116,7 +116,7 @@ class InfoPage extends StatelessWidget {
           SizedBox(height: 20),
           Text(
             description,
-            style: myTextStylefontsize14White,
+            style: myTextStylefontsize14WhiteW400,
           ),
           SizedBox(
             height: 90,

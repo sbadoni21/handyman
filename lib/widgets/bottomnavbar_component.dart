@@ -27,7 +27,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       type: BottomNavigationBarType.fixed,
       currentIndex: widget.currentIndex,
       onTap: widget.onTap,
-      selectedLabelStyle: myTextStylefontsize14,
+      selectedLabelStyle: myTextStylefontsize14BlackW400,
       items: [
         BottomNavigationBarItem(
           icon: IconButton(

@@ -10,7 +10,7 @@ import 'package:handyman/screens/search_page.dart';
 import 'package:handyman/screens/subcategory_page.dart';
 import 'package:handyman/services/data/crousaldata_service.dart';
 import 'package:handyman/services/data/service_category_data.dart';
-import 'package:handyman/services/data/service_provider_data.dart';
+import 'package:handyman/services/data/top_service_provider_data.dart';
 import 'package:handyman/utils/app_colors.dart';
 import 'package:handyman/widgets/bottom_sheet_list_component.dart';
 import 'package:handyman/widgets/bottomnavbar_component.dart';
