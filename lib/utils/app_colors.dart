@@ -9,7 +9,9 @@ const bgColor = Colors.black;
 const bgsecondary = Color.fromRGBO(85, 85, 85, 1);
 const cardColor = Color.fromRGBO(240, 243, 248, 1);
 const JoinGreen = Color.fromRGBO(0, 170, 0, 1);
-//text styles
+
+
+
 TextStyle myTextStylefontsize19White = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,
   color: Colors.white,

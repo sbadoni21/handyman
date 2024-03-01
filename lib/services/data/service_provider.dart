@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:handyman/models/service_categories_model.dart';
 import 'package:handyman/models/service_provider_model.dart';
-import 'package:handyman/models/user.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final serviceProviderRepositoryProvider =
@@ -13,26 +11,24 @@ class ServiceProviderRepository {
   Future<List<ServiceProvider>> getServiceProvidersForSubServiceCategory(
       String subServiceCategoryUID) async {
     try {
+      print(subServiceCategoryUID);
       QuerySnapshot<Map<String, dynamic>> serviceProvidersSnapshot =
-          await _firestore
-              .collection('serviceProviders')
-              .where('serviceSubCategories',
-                  arrayContains: subServiceCategoryUID)
-              .get();
-      print(serviceProvidersSnapshot.docs);
+          await _firestore.collection('serviceProviders').get();
       List<ServiceProvider> serviceProvidersList = serviceProvidersSnapshot.docs
           .map((doc) =>
               ServiceProvider.fromMap(doc.data() as Map<String, dynamic>))
           .toList();
-      print(serviceProvidersList);
-      for (var serviceProvider in serviceProvidersList) {
-        print("ServiceProvider Data:");
-        print("Name: ${serviceProvider.name}");
-        print("Location: ${serviceProvider.location}");
-        print("-----------");
+      List<ServiceProvider> filteredServiceProviders = serviceProvidersList
+          .where((serviceProvider) => serviceProvider.serviceSubCategories.any(
+              (subCategory) =>
+                  subCategory.subServiceCategoryUID == subServiceCategoryUID))
+          .toList();
+
+      for (var serviceProvider in filteredServiceProviders) {
+        print(serviceProvider);
       }
 
-      return serviceProvidersList;
+      return filteredServiceProviders;
     } catch (e) {
       throw Exception("Error fetching service providers: $e");
     }
