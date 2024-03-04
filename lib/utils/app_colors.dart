@@ -12,6 +12,16 @@ const JoinGreen = Color.fromRGBO(0, 170, 0, 1);
 
 
 
+TextStyle myTextStylefontsize10White = GoogleFonts.inter(
+  fontWeight: FontWeight.bold,
+  color: Colors.white,
+  fontSize: 10,
+);
+TextStyle myTextStylefontsize10Grey = GoogleFonts.inter(
+  fontWeight: FontWeight.bold,
+  color: Colors.grey,
+  fontSize: 10,
+);
 TextStyle myTextStylefontsize19White = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,
   color: Colors.white,
@@ -41,6 +51,7 @@ TextStyle myTextStylefontsize16Black = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,
   color: Colors.black,
   fontSize: 19,
+  
 );
 TextStyle myTextStylefontsize20Grey = GoogleFonts.raleway(
   fontWeight: FontWeight.bold,

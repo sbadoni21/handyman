@@ -8,6 +8,7 @@ import 'package:handyman/utils/app_colors.dart';
 import 'package:handyman/widgets/coursestile_component.dart';
 import 'package:handyman/widgets/customappbar.dart';
 import 'package:handyman/widgets/subcategory_long_tile.dart';
+import 'package:lottie/lottie.dart';
 
 class SubCategoryServiceDetailsPage extends ConsumerStatefulWidget {
   final SubCategoryService subCategoryService;
@@ -49,15 +50,14 @@ class _SubCategoryServiceDetailsPageState
             fit: BoxFit.contain,
             alignment: Alignment.center,
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 20),
           Container(
             height: 130,
             width: double.infinity,
-            decoration:const BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
               ),
             ),
             child: Padding(
@@ -102,7 +102,41 @@ class _SubCategoryServiceDetailsPageState
               ),
             ),
           ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+              padding: EdgeInsets.all(15),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              child: Text(
+                'Top Service Provider',
+                style: myTextStylefontsize16Black,
+              )),
           _buildTopServiceProviders(),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+              padding: EdgeInsets.all(15),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              child: Text(
+                'Service Provider',
+                style: myTextStylefontsize16Black,
+              )),
+          _buildServiceProviders(),
+          SizedBox(
+            height: 20,
+          )
         ],
       ),
     );
@@ -111,36 +145,68 @@ class _SubCategoryServiceDetailsPageState
   Widget _buildTopServiceProviders() {
     final serviceProvidersAsyncValue = ref.watch(serviceProviderProvider);
     return Container(
+      height: 250,
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20))),
       child: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(
-                  "Service Providers",
-                  style: myTextStylefontsize16Black,
-                ),
-              ],
-            ),
-            if (serviceProvidersAsyncValue != null &&
-                serviceProvidersAsyncValue is AsyncData)
+        child: serviceProvidersAsyncValue.when(
+          loading: () => SizedBox(
+              height: 250,
+              width: 250,
+              child: Lottie.asset('assets/lottie/loading.json')),
+          error: (error, stack) => Text('Error: $error'),
+          data: (serviceProviders) {
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              physics: AlwaysScrollableScrollPhysics(),
+              itemCount: serviceProviders.length,
+              itemBuilder: (context, index) {
+                final serviceProvider = serviceProviders[index];
+                return Tiles(serviceProvider: serviceProvider);
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
 
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: serviceProvidersAsyncValue.value!.length,
-                itemBuilder: (context, index) {
-                  final serviceProvider =
-                      serviceProvidersAsyncValue.value![index];
-                  return Tiles(serviceProvider: serviceProvider);
-                },
-              ),
-          ],
+  Widget _buildServiceProviders() {
+    final serviceProvidersAsyncValue = ref.watch(serviceProviderProvider);
+    return Container(
+      height: 250,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20))),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: serviceProvidersAsyncValue.when(
+          loading: () => SizedBox(
+              height: 250,
+              width: 250,
+              child: Lottie.asset('assets/lottie/loading.json')),
+          error: (error, stack) => Text('Error: $error'),
+          data: (serviceProviders) {
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              physics: AlwaysScrollableScrollPhysics(),
+              itemCount: serviceProviders.length,
+              itemBuilder: (context, index) {
+                final serviceProvider = serviceProviders[index];
+                return Tiles(serviceProvider: serviceProvider);
+              },
+            );
+          },
         ),
       ),
     );

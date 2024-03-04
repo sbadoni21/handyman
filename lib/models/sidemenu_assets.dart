@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:handyman/screens/helpcenter_screen.dart';
 import 'package:handyman/screens/home_screen.dart';
+import 'package:handyman/screens/setting_screen.dart';
 
 List<Map<String, dynamic>> sideMenuItems = [
   {
@@ -9,19 +10,24 @@ List<Map<String, dynamic>> sideMenuItems = [
     "key": "home",
     'route': const HomeScreen()
   },
-
-  // {
-  //   "icon": Icons.contact_mail,
-  //   "text": "Contact Us",
-  //   "key": "contact",
-  //   'route': ContactUsPage(),
-  // },
-  // {
-  //   "icon": Icons.question_mark,
-  //   "text": "Help",
-  //   "key": "aboutus",
-  //   'route': AboutAppPage()
-  // },
+  {
+    "icon": Icons.call,
+    "text": "Help Center",
+    "key": "helpCenter",
+    'route': HelpCenterScreen(),
+  },
+  {
+    "icon": Icons.star_border,
+    "text": "Plus Membership",
+    "key": "plusMemberShip",
+    'route': HelpCenterScreen(),
+  },
+  {
+    "icon": Icons.settings,
+    "text": "Settings",
+    "key": "aboutus",
+    'route': SettingsPage()
+  },
   {
     "icon": Icons.logout,
     "text": "Logout",

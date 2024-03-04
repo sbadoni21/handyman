@@ -5,7 +5,6 @@ import 'package:riverpod/riverpod.dart';
 final carousalProvider = FutureProvider<List<Carousal>>((ref) {
   return CarousalDataService().getCarousalData();
 });
-//TODO change the model of carosual
 class CarousalDataService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 

@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import '../../models/user.dart';
 import '../services/auth/authentication.dart';
 
@@ -17,6 +19,7 @@ class UserStateNotifier extends StateNotifier<User?> {
   UserStateNotifier(this.ref) : super(null) {
     _initUser();
   }
+  
   Future<void> _initUser() async {
     var firebaseUser = auth.FirebaseAuth.instance.currentUser;
     if (firebaseUser != null) {
@@ -42,7 +45,8 @@ class UserStateNotifier extends StateNotifier<User?> {
       state = null;
     }
   }
-   Future<User?> signInWithEmail({
+
+  Future<User?> signInWithEmail({
     required String name,
     required String email,
     required String password,
@@ -51,16 +55,15 @@ class UserStateNotifier extends StateNotifier<User?> {
     File? userImage,
   }) async {
     try {
-      var firebaseUser = await ref
-          .read(authenticationServicesProvider)
-          .registerUser(
-                 name:name,
-    email:email,
-    password:password,
-    location:location,
-    userImage:userImage,
-    dob:dob,
-             );
+      var firebaseUser =
+          await ref.read(authenticationServicesProvider).registerUser(
+                name: name,
+                email: email,
+                password: password,
+                location: location,
+                userImage: userImage,
+                dob: dob,
+              );
       if (firebaseUser != null) {
         User? user = await fetchUserData(firebaseUser.uid);
         print(
@@ -75,6 +78,7 @@ class UserStateNotifier extends StateNotifier<User?> {
       return null;
     }
   }
+
   Future<void> updateUserData(User updatedUser) async {
     try {
       await _firestore
@@ -86,7 +90,10 @@ class UserStateNotifier extends StateNotifier<User?> {
     } catch (e) {}
   }
 
-  Future<User?> signIn(String email, String password, ) async {
+  Future<User?> signIn(
+    String email,
+    String password,
+  ) async {
     try {
       var firebaseUser = await ref
           .read(authenticationServicesProvider)
@@ -130,7 +137,19 @@ class UserStateNotifier extends StateNotifier<User?> {
       return null;
     }
   }
-  
+
+  Future<User?> changeUserInfo(String nameChange) async {
+    try {
+      var firebaseUser =
+          await ref.read(authenticationServicesProvider).getCurrentUserId();
+      await ref
+          .read(authenticationServicesProvider)
+          .changeUserInfo(firebaseUser!, nameChange);
+      await ref.read(userStateNotifierProvider.notifier).state;
+    } catch (e) {
+      SnackBar(content: Text('Error'));
+    }
+  }
 }
 
 final userStateNotifierProvider =

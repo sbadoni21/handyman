@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -235,6 +236,21 @@ Future<User?> registerUser({
     }
 
     return null;
+  }
+
+   Future changeUserInfo(String userID, String newName) async {
+    try {
+
+        await _fireStore
+            .collection("users")
+            .doc(userID)
+            .update({'name': newName});
+    
+    } catch (e) {
+      SnackBar(
+        content: Text('Error while changing name'),
+      );
+    }
   }
   Future<void> signOut() async {
     await GoogleSignIn().signOut();

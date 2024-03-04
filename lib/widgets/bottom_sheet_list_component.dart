@@ -32,14 +32,14 @@ class BottomSheetListComponent extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         Container(
             height: 40,
             width: 120,
             child: Text(service.serviceName,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 14, color: bgColor, fontWeight: FontWeight.w600)))
       ],
     );

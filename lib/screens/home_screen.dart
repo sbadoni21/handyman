@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:handyman/models/service_categories_model.dart';
 import 'package:handyman/models/user.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
+import 'package:handyman/screens/account_screen.dart';
 import 'package:handyman/screens/menu_screen.dart';
 import 'package:handyman/screens/my_bookings_page.dart';
 import 'package:handyman/screens/search_page.dart';
@@ -79,7 +80,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             currentIndex = index;
           });
         },
-        children: [_buildHome(context), MyBookings()],
+        children: [_buildHome(context), MyBookings(), AccountScreen()],
       ),
     );
   }

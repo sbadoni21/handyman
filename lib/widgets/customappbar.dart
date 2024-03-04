@@ -31,16 +31,12 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
       leading: GestureDetector(
         onTap: () {
           if (widget.scaffoldKey != null) {
-            widget.scaffoldKey!.currentState?.openDrawer();
           } else {
             Navigator.pop(context);
           }
         },
         child: widget.scaffoldKey != null
-            ? const Icon(
-                Icons.menu,
-                color: Colors.white,
-              )
+            ? SizedBox()
             : const Icon(Icons.arrow_back, color: Colors.white),
       ),
       actions: [
