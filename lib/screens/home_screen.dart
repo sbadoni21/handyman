@@ -6,6 +6,7 @@ import 'package:handyman/models/service_categories_model.dart';
 import 'package:handyman/models/user.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/menu_screen.dart';
+import 'package:handyman/screens/my_bookings_page.dart';
 import 'package:handyman/screens/search_page.dart';
 import 'package:handyman/screens/subcategory_page.dart';
 import 'package:handyman/services/data/crousaldata_service.dart';
@@ -69,11 +70,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       drawerEnableOpenDragGesture: true,
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: currentIndex,
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
+        onTap: _onItemTapped,
       ),
       body: PageView(
         controller: _pageController,
@@ -82,9 +79,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             currentIndex = index;
           });
         },
-        children: [
-          _buildHome(context),
-        ],
+        children: [_buildHome(context), MyBookings()],
       ),
     );
   }
