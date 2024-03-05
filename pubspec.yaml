@@ -99,6 +99,7 @@ flutter:
         - assets/images/ceilingFan.png
         - assets/images/drainageMaintenance.png
         - assets/lottie/loading.json
+        - assets/lottie/location.json
 
 
 

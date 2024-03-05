@@ -27,9 +27,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Future<void> checkAndRequestPermissions() async {
-    var status = await Permission.camera.status;
-    if (!status.isGranted) {
+    var cameraStatus = await Permission.camera.status;
+    if (!cameraStatus.isGranted) {
       await Permission.camera.request();
+    }
+    var calendarStatus = await Permission.calendarWriteOnly.status;
+    if (!calendarStatus.isGranted) {
+      await Permission.calendarWriteOnly.request();
+    }
+
+    var audioStatus = await Permission.audio.status;
+    if (!audioStatus.isGranted) {
+      await Permission.audio.request();
+    }
+
+    var locationStatus = await Permission.location.status;
+    if (!locationStatus.isGranted) {
+      await Permission.location.request();
     }
   }
 

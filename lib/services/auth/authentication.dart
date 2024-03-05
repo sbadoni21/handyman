@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -105,6 +104,8 @@ class AuthenticationServices {
               'referralCode': referralCode,
               'myContest': [],
               'DOB': dob,
+         'latitude': 0,
+          'longitude': 0
             });
           }
 
@@ -142,6 +143,8 @@ class AuthenticationServices {
 
                 await _fireStore.collection('users').doc(uid).update({
                   'location': city,
+                  'latitude': position.latitude,
+                  'longitude': position.longitude
                 });
               }
             }
@@ -181,12 +184,13 @@ class AuthenticationServices {
 
     return null;
   }
-Future<User?> registerUser({
+
+  Future<User?> registerUser({
     required String name,
     required String email,
     required String password,
-     required String location,
-     required String dob,
+    required String location,
+    required String dob,
     File? userImage,
   }) async {
     try {
@@ -198,7 +202,7 @@ Future<User?> registerUser({
 
       if (userCredential.user != null) {
         String? photoURL;
-       isFirstSignUp = true;
+        isFirstSignUp = true;
 
         if (userImage != null) {
           final Reference userStorageReference = _storage.ref().child(
@@ -210,24 +214,73 @@ Future<User?> registerUser({
           });
         }
         final List myCourses = [];
-        final num wallet=0;
+        final num wallet = 0;
         final referralCode = randomAlphaNumeric(8);
 
         await _fireStore.collection('users').doc(userCredential.user!.uid).set({
-        'uid': userCredential.user!.uid,
-              'email': email,
-              'name': name,
-              'status': 'active',
-              'type': "free",
-              'isGoogleUser': false,
-              'location': "",
-              'photo': photoURL ?? "none",
-              'wallet': wallet,
-              'referralCode': referralCode,
-              'myContest': [],
-              'DOB': dob,
+          'uid': userCredential.user!.uid,
+          'email': email,
+          'name': name,
+          'status': 'active',
+          'type': "free",
+          'isGoogleUser': false,
+          'location': "",
+          'photo': photoURL ?? "none",
+          'wallet': wallet,
+          'referralCode': referralCode,
+          'myContest': [],
+          'DOB': dob,
+          'latitude': 0,
+          'longitude': 0
         }, SetOptions(merge: true));
+        var status = await Permission.location.status;
+        if (!status.isGranted) {
+          if (await Permission.location.request().isGranted) {
+            Position? position = await Geolocator.getCurrentPosition();
 
+            if (position != null) {
+              List<Placemark> placemarks = await placemarkFromCoordinates(
+                position.latitude,
+                position.longitude,
+              );
+
+              if (placemarks.isNotEmpty) {
+                String city = placemarks[0].locality ?? "Unknown City";
+
+                await _fireStore
+                    .collection('users')
+                    .doc(userCredential.user!.uid)
+                    .update({
+                  'location': city,
+                  'latitude': position.latitude,
+                  'longitude': position.longitude
+                });
+              }
+            }
+          }
+        } else {
+          Position? position = await Geolocator.getCurrentPosition();
+
+          if (position != null) {
+            List<Placemark> placemarks = await placemarkFromCoordinates(
+              position.latitude,
+              position.longitude,
+            );
+
+            if (placemarks.isNotEmpty) {
+              String city = placemarks[0].locality ?? "Unknown City";
+
+              await _fireStore
+                  .collection('users')
+                  .doc(userCredential.user!.uid)
+                  .update({
+                'location': city,
+                'latitude': position.latitude,
+                'longitude': position.longitude
+              });
+            }
+          }
+        }
         return userCredential.user;
       }
     } catch (e) {
@@ -238,20 +291,19 @@ Future<User?> registerUser({
     return null;
   }
 
-   Future changeUserInfo(String userID, String newName) async {
+  Future changeUserInfo(String userID, String newName) async {
     try {
-
-        await _fireStore
-            .collection("users")
-            .doc(userID)
-            .update({'name': newName});
-    
+      await _fireStore
+          .collection("users")
+          .doc(userID)
+          .update({'name': newName});
     } catch (e) {
       SnackBar(
         content: Text('Error while changing name'),
       );
     }
   }
+
   Future<void> signOut() async {
     await GoogleSignIn().signOut();
     await firebaseAuth.signOut();

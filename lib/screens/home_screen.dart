@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:handyman/models/service_categories_model.dart';
 import 'package:handyman/models/user.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
@@ -22,6 +27,8 @@ import 'package:handyman/widgets/customappbar.dart';
 import 'package:handyman/widgets/heading_component.dart';
 import 'package:handyman/widgets/search_bar.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:lottie/lottie.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 final userProvider = Provider<User?>((ref) {
   return ref.watch(userStateNotifierProvider);
@@ -37,15 +44,24 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   late User? user;
   int currentIndex = 0;
-
+  late Timer locationTimer;
   late PageController _pageController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  bool isFetchingLocation = false;
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
     user = ref.read(userProvider);
+    locationTimer = Timer.periodic(Duration(days: 1), (timer) {
+      setState(() {
+        isFetchingLocation = true;
+      });
+      _fetchLatestLocation();
+      setState(() {
+        isFetchingLocation = false;
+      });
+    });
   }
 
   void _onItemTapped(int index) {
@@ -59,30 +75,111 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
+  void _fetchLatestLocation() async {
+    final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+
+    var status = await Permission.location.status;
+
+    if (!status.isGranted) {
+      if (await Permission.location.request().isGranted) {
+        Position? position = await Geolocator.getCurrentPosition();
+
+        if (position != null) {
+          List<Placemark> placemarks = await placemarkFromCoordinates(
+            position.latitude,
+            position.longitude,
+          );
+
+          if (placemarks.isNotEmpty) {
+            String city = placemarks[0].locality ?? "Unknown City";
+
+            user!.location != city
+                ? await _fireStore
+                    .collection('users')
+                    .doc(user!.location)
+                    .update({
+                    'location': city,
+                    'latitude': position.latitude,
+                    'longitude': position.longitude,
+                  })
+                : ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Location is the same as before."),
+                  ));
+          }
+        }
+      }
+    } else {
+      Position? position = await Geolocator.getCurrentPosition();
+
+      if (position != null) {
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+          position.latitude,
+          position.longitude,
+        );
+
+        if (placemarks.isNotEmpty) {
+          String city = placemarks[0].locality ?? "Unknown City";
+
+          user!.location != city
+              ? await _fireStore
+                  .collection('users')
+                  .doc(user!.location)
+                  .update({
+                  'location': city,
+                  'latitude': position.latitude,
+                  'longitude': position.longitude,
+                })
+              : ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Location is the same as before."),
+                ));
+        }
+      }
+    }
+  }
+
   @override
   Widget build(
     BuildContext context,
   ) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Colors.black,
-      appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
-      drawer: const MenuScreen(),
-      drawerEnableOpenDragGesture: true,
-      bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: _onItemTapped,
-      ),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
-        children: [_buildHome(context), MyBookings(), AccountScreen()],
-      ),
-    );
+    return !isFetchingLocation
+        ? Scaffold(
+            key: _scaffoldKey,
+            backgroundColor: Colors.black,
+            appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
+            drawer: const MenuScreen(),
+            drawerEnableOpenDragGesture: true,
+            bottomNavigationBar: CustomBottomNavigationBar(
+              currentIndex: currentIndex,
+              onTap: _onItemTapped,
+            ),
+            body: PageView(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              children: [_buildHome(context), MyBookings(), AccountScreen()],
+            ),
+          )
+        : Scaffold(
+            body: Center(
+              child: Column(
+                children: [
+                  Lottie.asset("assets/lottie/location.json"),
+                  Text(
+                    'Delivering Services at :',
+                    style: myTextStylefontsize16Black,
+                  ),
+                  Text(
+                    user!.location,
+                    style: myTextStylefontsize14GreyW700,
+                  )
+                ],
+              ),
+            ),
+          );
+    ;
   }
 
   Widget _buildHome(context) {

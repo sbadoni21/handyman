@@ -143,7 +143,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
               height: 10,
             ),
             const Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
+              padding: EdgeInsets.only(bottom: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -171,7 +171,12 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
   Widget _buildShowChangeName() {
     User? user = ref.watch(userProvider);
     bool isLoading = true;
-    return isLoading == false
+
+    if (user == null) {
+      return SizedBox.shrink(); // Return an empty widget if user is null
+    }
+
+    return isLoading == true
         ? CircularProgressIndicator()
         : AlertDialog(
             backgroundColor: Colors.white,
@@ -208,7 +213,6 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                         setState(() {
                           isLoading = false;
                         });
-                        setState(() {});
                         Navigator.pop(context);
                       },
                       child: Text(
