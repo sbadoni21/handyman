@@ -172,7 +172,7 @@ extension on User {
       'wallet': wallet,
       'DOB': dob,
       'location': location,
-      'myContests': myContest
+      'myOrders':myOrders
     };
   }
 }

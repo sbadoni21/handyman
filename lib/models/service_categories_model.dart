@@ -64,12 +64,14 @@ class SubCategoryService {
   final String subCategoryServiceName;
   final String subCategoryServicePhoto;
   final String subCategoryServiceUID;
+  final String serviceCategoryUID;
   final num noOfUsers;
 
   SubCategoryService(
       {required this.subCategoryServiceName,
       required this.subCategoryServiceUID,
       required this.subCategoryServicePhoto,
+      required this.serviceCategoryUID,
       required this.noOfUsers});
 
   factory SubCategoryService.fromMap(Map<String, dynamic> map) {
@@ -77,6 +79,7 @@ class SubCategoryService {
         subCategoryServicePhoto: map['subCategoryServicePhoto'],
         subCategoryServiceName: map['subCategoryServiceName'],
         subCategoryServiceUID: map['subCategoryServiceUID'],
+        serviceCategoryUID: map['serviceCategoryUID'],
         noOfUsers: map['noOfUsers']);
   }
 }

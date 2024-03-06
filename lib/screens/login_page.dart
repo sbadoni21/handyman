@@ -51,7 +51,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.fromLTRB(16, 150, 16, 16),
+        padding: const EdgeInsets.fromLTRB(16, 150, 16, 16),
         child: ListView(
           children: [
             SizedBox(
@@ -68,7 +68,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
             Column(
               children: [
-                Container(
+              const  SizedBox(
                   width: double.infinity,
                   child: Text(
                     "Login",
@@ -78,7 +78,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         fontWeight: FontWeight.w600),
                   ),
                 ),
-                SizedBox(
+              const  SizedBox(
                   height: 10,
                 ),
                 TextField(
@@ -86,18 +86,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   decoration: InputDecoration(
                     labelText: 'Email',
                     hintText: 'Enter your email',
-                    prefixIcon: Icon(Icons.email, color: Colors.grey),
+                    prefixIcon:const Icon(Icons.email, color: Colors.grey),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: bgColor),
+                      borderSide: const BorderSide(color: bgColor),
                     ),
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                      const  EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
                   ),
                 ),
-                SizedBox(height: 16.0),
+              const  SizedBox(height: 16.0),
                 TextField(
                   controller: passwordController,
                   obscureText: true,

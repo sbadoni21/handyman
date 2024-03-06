@@ -85,7 +85,6 @@ class AuthenticationServices {
             final status = 'active';
             final photoURL = userCredential.user!.photoURL;
             final coins = 0;
-            final List myCourses = [];
             final type = "free";
             final isGoogleUser = true;
             final referralCode = randomAlphaNumeric(8);
@@ -102,10 +101,10 @@ class AuthenticationServices {
               'photo': photoURL ?? "none",
               'wallet': wallet,
               'referralCode': referralCode,
-              'myContest': [],
               'DOB': dob,
-         'latitude': 0,
-          'longitude': 0
+              'myOrders': [],
+              'latitude': 0,
+              'longitude': 0
             });
           }
 
@@ -228,7 +227,7 @@ class AuthenticationServices {
           'photo': photoURL ?? "none",
           'wallet': wallet,
           'referralCode': referralCode,
-          'myContest': [],
+          'myOrders': [],
           'DOB': dob,
           'latitude': 0,
           'longitude': 0

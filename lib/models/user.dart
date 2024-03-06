@@ -11,7 +11,7 @@ class User {
   final num wallet;
   final String dob;
   final String location;
-  final List? myContest;
+  final List? myOrders;
   final num latitude;
   final num longitude;
 
@@ -28,7 +28,7 @@ class User {
       required this.wallet,
       required this.location,
       required this.dob,
-      required this.myContest,
+      required this.myOrders,
       required this.latitude,
       required this.longitude});
 
@@ -48,7 +48,7 @@ class User {
       location: map['location'] ?? "",
       latitude: map['latitude'] ?? 0,
       longitude: map['longitude'] ?? 0,
-      myContest: List<String>.from(map['myContest'] ?? []),
+      myOrders: List<String>.from(map['myOrders'] ?? []),
     );
   }
 }
