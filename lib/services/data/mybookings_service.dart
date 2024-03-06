@@ -2,19 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:handyman/models/bookings_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final myBookingProvider =
-    Provider<MyBookingsProvider>((ref) => MyBookingsProvider());
 
 class MyBookingsProvider {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<List<BookingModel>> getBookingsUsers(String userId) async {
     try {
-      DocumentSnapshot userSnapshot =
+      DocumentSnapshot<Map<String, dynamic>>  userSnapshot =
           await _firestore.collection('users').doc(userId).get();
 
       List<String> myOrdersUIDs =
-          userSnapshot.get('myOrders')?.cast<String>() ?? [];
+        await  userSnapshot.get('myOrders')?.cast<String>() ?? [];
 
       List<BookingModel> myBookings = [];
 

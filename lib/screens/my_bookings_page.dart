@@ -3,23 +3,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:handyman/models/bookings_model.dart';
 import 'package:handyman/models/user.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
+import 'package:handyman/screens/home_screen.dart';
 import 'package:handyman/services/data/mybookings_service.dart';
 import 'package:handyman/utils/app_colors.dart';
 import 'package:lottie/lottie.dart';
 
-final userProvider = Provider<User?>((ref) {
-  return ref.watch(userStateNotifierProvider);
-});
-
 class MyBookings extends ConsumerStatefulWidget {
-  const MyBookings({super.key});
+  const MyBookings({Key? key}) : super(key: key);
 
   @override
   _MyBookingsState createState() => _MyBookingsState();
 }
 
 class _MyBookingsState extends ConsumerState<MyBookings> {
-  late FutureProvider<List<BookingModel>> myBookings;
+  late FutureProvider<List<BookingModel>> myBookingsProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    User? user = ref.read(userProvider);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,57 +37,47 @@ class _MyBookingsState extends ConsumerState<MyBookings> {
           SizedBox(
             height: 10,
           ),
-          // _buildGeneralServiceProviders(),
+          _buildMyBookingsProvider(),
         ],
       ),
     );
   }
-// Widget _buildGeneralServiceProviders() {
-//   return Container(
-//     height: 250,
-//     width: double.infinity,
-//     decoration: BoxDecoration(
-//       color: Colors.white,
-//       borderRadius: BorderRadius.only(
-//         bottomLeft: Radius.circular(20),
-//         bottomRight: Radius.circular(20),
-//       ),
-//     ),
-//     child: Padding(
-//       padding: const EdgeInsets.all(15.0),
-//       child: ref.read(myBookingProvider).(
-//         loading: () => SizedBox(
-//           height: 250,
-//           width: 250,
-//           child: Lottie.asset('assets/lottie/loading.json'),
-//         ),
-//         error: (error, stack) {
-//           print('Error: $error');
-//           print(stack);
-//           return Text('Error: $error');
-//         },
-//         data: (myBookings) {
-//           if (myBookings == null || myBookings.isEmpty) {
-//             return Text('No bookings available.');
-//           }
-//           return ListView.builder(
-//             scrollDirection: Axis.horizontal,
-//             shrinkWrap: true,
-//             physics: AlwaysScrollableScrollPhysics(),
-//             itemCount: myBookings.length,
-//             itemBuilder: (context, index) {
-//               final BookingModel booking = myBookings[index];
-//               return Text(
-//                 booking.review ?? 'Review is null',
-//                 style: myTextStylefontsize10BGCOLOR,
-//               );
-//             },
-//           );
-//         },
-//       ),
-//     ),
-//   );
-// }
 
+  Widget _buildMyBookingsProvider() {
+    User? user = ref.read(userProvider);
 
+    return FutureBuilder<List<BookingModel>>(
+      future: MyBookingsProvider().getBookingsUsers(user!.uid),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Text("Error: ${snapshot.error}");
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Text("No bookings available.");
+        } else {
+          List<BookingModel> myBookings = snapshot.data!;
+
+          return Expanded(
+            child: ListView.builder(
+              itemCount: myBookings.length,
+              itemBuilder: (context, index) {
+                BookingModel booking = myBookings[index];
+
+                return SizedBox(
+                  height: 20,
+                  child: ListTile(
+                    title: Text(
+                      "Booking ${index + 1}",
+                      style: myTextStylefontsize10White,
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        }
+      },
+    );
+  }
 }
