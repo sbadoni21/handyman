@@ -50,6 +50,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!contactStatus.isGranted) {
       await Permission.contacts.request();
     }
+     var notificatonStatus = await Permission.notification.status;
+    if (!notificatonStatus.isGranted) {
+      await Permission.notification.request();
+    }
   }
 
   @override
