@@ -11,7 +11,6 @@ import 'package:handyman/models/service_categories_model.dart';
 import 'package:handyman/models/user.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/account_screen.dart';
-import 'package:handyman/screens/menu_screen.dart';
 import 'package:handyman/screens/my_bookings_page.dart';
 import 'package:handyman/screens/reward_screen.dart';
 import 'package:handyman/screens/search_page.dart';
@@ -147,7 +146,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             key: _scaffoldKey,
             backgroundColor: Colors.black,
             appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
-            drawer: const MenuScreen(),
             drawerEnableOpenDragGesture: true,
             bottomNavigationBar: CustomBottomNavigationBar(
               currentIndex: currentIndex,
@@ -180,7 +178,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
           );
-    ;
   }
 
   Widget _buildHome(context) {
