@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:handyman/services/notification/notification_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:random_string/random_string.dart';
 
@@ -90,6 +91,8 @@ class AuthenticationServices {
             final referralCode = randomAlphaNumeric(8);
             const wallet = 0;
             const dob = '';
+            final deviceToken = await NotificationService().getDeviceToken();
+
             await _fireStore.collection('users').doc(uid).set({
               'uid': uid,
               'email': email,
@@ -104,7 +107,8 @@ class AuthenticationServices {
               'DOB': dob,
               'myOrders': [],
               'latitude': 0,
-              'longitude': 0
+              'longitude': 0,
+              'deviceToken': deviceToken
             });
           }
 
@@ -215,6 +219,7 @@ class AuthenticationServices {
         final List myCourses = [];
         final num wallet = 0;
         final referralCode = randomAlphaNumeric(8);
+        final deviceToken = await NotificationService().getDeviceToken();
 
         await _fireStore.collection('users').doc(userCredential.user!.uid).set({
           'uid': userCredential.user!.uid,
@@ -230,7 +235,8 @@ class AuthenticationServices {
           'myOrders': [],
           'DOB': dob,
           'latitude': 0,
-          'longitude': 0
+          'longitude': 0,
+          'deviceToken': deviceToken
         }, SetOptions(merge: true));
         var status = await Permission.location.status;
         if (!status.isGranted) {
