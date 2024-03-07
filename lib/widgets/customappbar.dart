@@ -26,7 +26,13 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.black,
-      title: Text('Home Hero', style: myTextStylefontsize24White),
+      title: SizedBox(
+        height: preferredSize.height,
+        child: Image.asset(
+          'assets/images/logowhite.png',
+          fit: BoxFit.contain,
+        ),
+      ),
       centerTitle: true,
       leading: GestureDetector(
         onTap: () {

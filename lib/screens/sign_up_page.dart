@@ -128,14 +128,13 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                   Column(
                     children: [
                       Image.asset(
-                        "assets/images/applogo.png",
+                        "assets/images/logoblack.png",
                         fit: BoxFit.contain,
                         height: 230,
-                        width: 180,
                       ),
                       Center(
                         child: Text(
-                          "Dosso 21",
+                          "Handy Hands",
                           style: TextStyle(
                             color: bgColor,
                             fontSize: 24,

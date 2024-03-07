@@ -38,7 +38,6 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
 
       setState(() {
         _contacts = contacts;
-        print(_contacts!.first.phones!.first.value);
       });
     }
   }
@@ -200,8 +199,8 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
                     MaterialStateProperty.all<Color>(Colors.transparent),
                 elevation: MaterialStateProperty.all<double>(0),
               ),
-              onPressed: () {
-                _buildBottom();
+              onPressed: () async {
+                await _buildBottom();
               },
               child: Container(
                   alignment: Alignment.center,
@@ -223,16 +222,20 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
     );
   }
 
-  void _buildBottom() {
-    showModalBottomSheet(
+  Future<void> _buildBottom() async {
+    User? user = ref.read(userProvider);
+
+    await showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        User? user = ref.read(userProvider);
         return Container(
           decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
           height: 400,
           child: Column(
             children: [
@@ -246,20 +249,22 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
                   itemCount: _contacts!.length,
                   itemBuilder: (context, index) {
                     String phoneNumber =
-                        _contacts!.first.phones!.first.value ?? '';
+                        _contacts![index].phones!.first.value ?? '';
                     return ListTile(
                       title: Text(_contacts![index].displayName ?? ''),
-                      subtitle: Text(_contacts![index]
-                              .phones
-                              ?.map((e) => e.value)
-                              .toList()
-                              .join(', ') ??
-                          ''),
+                      subtitle: Text(
+                        _contacts![index]
+                                .phones
+                                ?.map((e) => e.value)
+                                .toList()
+                                .join(', ') ??
+                            '',
+                      ),
                       trailing: IconButton(
                         onPressed: () {
                           sendSms(user!.referralCode, phoneNumber);
                         },
-                        icon: Icon(Ionicons.share),
+                        icon: const Icon(Ionicons.share),
                       ),
                     );
                   },

@@ -34,7 +34,7 @@ class SplashScreen extends ConsumerWidget {
       splash: ListView(
         children: [
           Image.asset(
-            "assets/images/applogo.png",
+            "assets/images/logoblack.png",
             height: 270,
             width: 270,
           ),
@@ -42,7 +42,7 @@ class SplashScreen extends ConsumerWidget {
             width: double.infinity,
             alignment: Alignment.center,
             child: const Text(
-              "Dosso21",
+              "Handy Hands",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,

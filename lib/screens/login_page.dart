@@ -63,10 +63,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               child: Column(
                 children: [
                   Image.asset(
-                    "assets/images/applogo.png",
+                    "assets/images/logoblack.png",
                     fit: BoxFit.cover,
                     height: 230,
-                    width: 180,
                   ),
                 ],
               ),

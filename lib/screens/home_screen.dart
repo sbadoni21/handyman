@@ -142,23 +142,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     BuildContext context,
   ) {
     return !isFetchingLocation
-        ? Scaffold(
-            key: _scaffoldKey,
-            backgroundColor: Colors.black,
-            appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
-            drawerEnableOpenDragGesture: true,
-            bottomNavigationBar: CustomBottomNavigationBar(
-              currentIndex: currentIndex,
-              onTap: _onItemTapped,
-            ),
-            body: PageView(
-              controller: _pageController,
-              onPageChanged: (index) {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-              children: [_buildHome(context), MyBookings(), RewardScreen(), AccountScreen()],
+        ? SafeArea(
+            child: Scaffold(
+              key: _scaffoldKey,
+              backgroundColor: Colors.black,
+              appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
+              drawerEnableOpenDragGesture: true,
+              bottomNavigationBar: CustomBottomNavigationBar(
+                currentIndex: currentIndex,
+                onTap: _onItemTapped,
+              ),
+              body: PageView(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    currentIndex = index;
+                  });
+                },
+                children: [
+                  _buildHome(context),
+                  MyBookings(),
+                  RewardScreen(),
+                  AccountScreen()
+                ],
+              ),
             ),
           )
         : Scaffold(

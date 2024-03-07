@@ -101,6 +101,8 @@ flutter:
         - assets/images/drainageMaintenance.png
         - assets/lottie/loading.json
         - assets/lottie/location.json
+        - assets/images/logowhite.png
+        - assets/images/logoblack.png
 
 
 
