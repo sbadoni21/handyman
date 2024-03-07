@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 
 class ServiceProvider {
   final String gstNumber;

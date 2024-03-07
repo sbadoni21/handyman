@@ -15,6 +15,7 @@ import 'package:handyman/screens/addata.dart';
 import 'package:handyman/screens/my_bookings_page.dart';
 import 'package:handyman/screens/reward_screen.dart';
 import 'package:handyman/screens/search_page.dart';
+import 'package:handyman/screens/serviceprovider_details_page.dart';
 import 'package:handyman/screens/subcategory_page.dart';
 import 'package:handyman/services/data/crousaldata_service.dart';
 import 'package:handyman/services/data/service_category_data.dart';
@@ -162,9 +163,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 },
                 children: [
                   _buildHome(context),
-                  MyBookings(),
-                  RewardScreen(),
-                  AccountScreen()
+                 const MyBookings(),
+                 const RewardScreen(),
+                 const AccountScreen()
                 ],
               ),
             ),
@@ -402,7 +403,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       child: Row(
                         children: [
                           for (final serviceProvider in serviceProviders)
-                            Tiles(serviceProvider: serviceProvider),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ServiceProviderDetailsPage(
+                                                  serviceProvider:
+                                                      serviceProvider)));
+                                },
+                                child: Tiles(serviceProvider: serviceProvider)),
                         ],
                       ),
                     ),
