@@ -6,7 +6,9 @@ import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/home_screen.dart';
 import 'package:handyman/services/data/mybookings_service.dart';
 import 'package:handyman/utils/app_colors.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:lottie/lottie.dart';
+import 'package:intl/intl.dart';
 
 class MyBookings extends ConsumerStatefulWidget {
   const MyBookings({Key? key}) : super(key: key);
@@ -27,18 +29,26 @@ class _MyBookingsState extends ConsumerState<MyBookings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.black,
+        title: Text(
+          'My Bookings',
+          style: myTextStylefontsize16white,
+        ),
+      ),
       backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          Text(
-            'My Bookings',
-            style: myTextStylefontsize16white,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          _buildMyBookingsProvider(),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            _buildMyBookingsProvider(),
+          ],
+        ),
       ),
     );
   }
@@ -63,15 +73,52 @@ class _MyBookingsState extends ConsumerState<MyBookings> {
               itemCount: myBookings.length,
               itemBuilder: (context, index) {
                 BookingModel booking = myBookings[index];
-
-                return SizedBox(
-                  height: 20,
-                  child: ListTile(
-                    title: Text(
-                      "Booking ${index + 1}",
-                      style: myTextStylefontsize10White,
-                    ),
+                DateTime dateTime = booking.timeOfBooking.toDate();
+                String formattedDateTime =
+                    DateFormat('MMMM d, y, HH:mm a').format(dateTime);
+                return ListTile(
+                  onTap: () {},
+                  tileColor: Colors.grey[200],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        10.0), 
                   ),
+                  contentPadding: EdgeInsets.all(10),
+                  title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Ionicons.time_outline,
+                        size: 10,
+                        color: Colors.grey[900],
+                      ),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Text(
+                        "${formattedDateTime}",
+                        style: myTextStylefontsize12BGCOLOR,
+                      ),
+                    ],
+                  ),
+                  trailing: Text('Charges : ₹ ${booking.serviceCost} '),
+                  subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Service Name :  ${booking.serviceName}",
+                          style: myTextStylefontsize12BGCOLOR,
+                        ),
+                        Text(
+                          "Service Provider :  ${booking.serviceProviderName}",
+                          style: myTextStylefontsize12BGCOLOR,
+                        ),
+                        Text(
+                          "Service Location :  ${booking.serviceLocation}",
+                          style: myTextStylefontsize12BGCOLOR,
+                        )
+                      ]),
                 );
               },
             ),

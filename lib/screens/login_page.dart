@@ -45,6 +45,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!locationStatus.isGranted) {
       await Permission.location.request();
     }
+
+    var contactStatus = await Permission.contacts.status;
+    if (!contactStatus.isGranted) {
+      await Permission.contacts.request();
+    }
   }
 
   @override
@@ -68,7 +73,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
             Column(
               children: [
-              const  SizedBox(
+                const SizedBox(
                   width: double.infinity,
                   child: Text(
                     "Login",
@@ -78,7 +83,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         fontWeight: FontWeight.w600),
                   ),
                 ),
-              const  SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 TextField(
@@ -86,18 +91,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   decoration: InputDecoration(
                     labelText: 'Email',
                     hintText: 'Enter your email',
-                    prefixIcon:const Icon(Icons.email, color: Colors.grey),
+                    prefixIcon: const Icon(Icons.email, color: Colors.grey),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: const BorderSide(color: bgColor),
                     ),
-                    contentPadding:
-                      const  EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 14.0),
                   ),
                 ),
-              const  SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextField(
                   controller: passwordController,
                   obscureText: true,
