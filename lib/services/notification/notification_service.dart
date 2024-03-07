@@ -124,15 +124,14 @@ class NotificationService {
   }
 
   Future<void> showNotification(RemoteMessage message) async {
-
     AndroidNotificationChannel androidNotificationChannel =
         AndroidNotificationChannel(
-            Random.secure().nextInt(100000).toString(), "Boarding Admissions",
+            Random.secure().nextInt(100000).toString(), "Handy Hands",
             importance: Importance.max);
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(androidNotificationChannel.id.toString(),
             androidNotificationChannel.name.toString(),
-            channelDescription: "Boarding Admission channel description",
+            channelDescription: "Handy Hands  channel description",
             importance: Importance.high,
             priority: Priority.high,
             ticker: "ticker");
@@ -150,7 +149,6 @@ class NotificationService {
   }
 
   void handleMessage(BuildContext context, RemoteMessage message) {
-
     if (message.data['type'] == "Chat") {
       Navigator.of(context).pushNamed('/ChatApp');
     }
