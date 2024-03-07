@@ -13,6 +13,7 @@ import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/account_screen.dart';
 import 'package:handyman/screens/menu_screen.dart';
 import 'package:handyman/screens/my_bookings_page.dart';
+import 'package:handyman/screens/reward_screen.dart';
 import 'package:handyman/screens/search_page.dart';
 import 'package:handyman/screens/subcategory_page.dart';
 import 'package:handyman/services/data/crousaldata_service.dart';
@@ -159,7 +160,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   currentIndex = index;
                 });
               },
-              children: [_buildHome(context), MyBookings(), AccountScreen()],
+              children: [_buildHome(context), MyBookings(), RewardScreen(), AccountScreen()],
             ),
           )
         : Scaffold(
