@@ -126,7 +126,9 @@ class NotificationService {
   Future<void> showNotification(RemoteMessage message) async {
     AndroidNotificationChannel androidNotificationChannel =
         AndroidNotificationChannel(
-            Random.secure().nextInt(100000).toString(), "Handy Hands",
+            // Random.secure().nextInt(100000).toString(),
+            '1',
+            "Handy Hands",
             importance: Importance.max);
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(androidNotificationChannel.id.toString(),

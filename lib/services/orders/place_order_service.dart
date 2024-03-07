@@ -27,7 +27,7 @@ class OrderServices {
           return distance / 1000000;
         } catch (e) {
           print("Error calculating distance: $e");
-          return 0.0; // Handle errors gracefully
+          return 0.0; 
         }
       }
 
