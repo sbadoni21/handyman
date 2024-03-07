@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:handyman/models/bookings_model.dart';
 import 'package:handyman/models/user.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
+import 'package:handyman/screens/bookings_details_page.dart';
 import 'package:handyman/screens/home_screen.dart';
 import 'package:handyman/services/data/mybookings_service.dart';
 import 'package:handyman/utils/app_colors.dart';
@@ -77,11 +78,16 @@ class _MyBookingsState extends ConsumerState<MyBookings> {
                 String formattedDateTime =
                     DateFormat('MMMM d, y, HH:mm a').format(dateTime);
                 return ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) =>
+                                MyBookingsDetailsPage(booking: booking))));
+                  },
                   tileColor: Colors.grey[200],
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        10.0), 
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                   contentPadding: EdgeInsets.all(10),
                   title: Row(

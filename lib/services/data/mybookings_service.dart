@@ -1,18 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:handyman/models/bookings_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+final myBookingsProvider = ChangeNotifierProvider<MyBookingsProvider>((ref) {
+  return MyBookingsProvider();
+});
 
-class MyBookingsProvider {
+class MyBookingsProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<List<BookingModel>> getBookingsUsers(String userId) async {
     try {
-      DocumentSnapshot<Map<String, dynamic>>  userSnapshot =
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
           await _firestore.collection('users').doc(userId).get();
 
       List<String> myOrdersUIDs =
-        await  userSnapshot.get('myOrders')?.cast<String>() ?? [];
+          await userSnapshot.get('myOrders')?.cast<String>() ?? [];
 
       List<BookingModel> myBookings = [];
 
@@ -23,6 +27,7 @@ class MyBookingsProvider {
           BookingModel booking = BookingModel.fromMap(
               orderSnapshot.data() as Map<String, dynamic>);
           myBookings.add(booking);
+          notifyListeners();
         } else {
           print('Order with UID $uid does not exist.');
         }
@@ -33,6 +38,18 @@ class MyBookingsProvider {
       print('Error fetching service providers: $e');
       print(stackTrace);
       return [];
+    }
+  }
+
+  Future<void> addReview(String bookingId, String review) async {
+    try {
+      await _firestore.collection('orders').doc(bookingId).update({
+        'review': review,
+      });
+      print('Review added successfully');
+    } catch (e) {
+      print('Error adding review: $e');
+      throw e;
     }
   }
 }

@@ -11,6 +11,7 @@ import 'package:handyman/models/service_categories_model.dart';
 import 'package:handyman/models/user.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/account_screen.dart';
+import 'package:handyman/screens/addata.dart';
 import 'package:handyman/screens/my_bookings_page.dart';
 import 'package:handyman/screens/reward_screen.dart';
 import 'package:handyman/screens/search_page.dart';
@@ -203,6 +204,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             _buildCategories(),
             const SizedBox(height: 10),
             _buildTopServiceProviders(),
+            const SizedBox(height: 10),
+            _buildCarousel()
           ]),
         ),
       ],
@@ -272,13 +275,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         return serviceCategory.when(
           data: (categoryList) {
             return SizedBox(
-              height: 400,
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 120.0,
-                  crossAxisSpacing: 8.0,
-                  mainAxisSpacing: 8.0,
-                ),
+              height: 100,
+              child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: categoryList.length,
                 itemBuilder: (context, index) {
@@ -332,7 +330,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 scrollPhysics: const BouncingScrollPhysics(
                   decelerationRate: ScrollDecelerationRate.normal,
                 ),
-                height: 229.0,
                 viewportFraction: 1,
                 aspectRatio: 16 / 9,
                 enableInfiniteScroll: true,
@@ -359,7 +356,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       },
                       child: Image.network(
                         carousal.bannerImage,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.contain,
                       ),
                     );
                   },
@@ -398,7 +395,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               return serviceProviderAsyncValue.when(
                 data: (serviceProviders) {
                   return SizedBox(
-                    height: 350,
+                    height: 180,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       physics: AlwaysScrollableScrollPhysics(),
@@ -424,6 +421,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               );
             },
           ),
+          const SizedBox(height: 10),
         ],
       ),
     );

@@ -9,7 +9,14 @@ class ServiceCategoryModel {
       required this.services,
       required this.servicePhoto,
       required this.serviceModelName});
-
+  Map<String, dynamic> toMap() {
+    return {
+      'serviceModelUID': serviceModelUID,
+      'services': services.map((service) => service.toMap()).toList(),
+      'servicePhoto': servicePhoto,
+      'serviceModelName': serviceModelName,
+    };
+  }
   factory ServiceCategoryModel.fromMap(Map<String, dynamic> map) {
     List<Service> services = [];
 
@@ -40,6 +47,16 @@ class Service {
     required this.serviceUID,
     required this.subCategoryServices,
   });
+    Map<String, dynamic> toMap() {
+    return {
+      'servicePhoto': servicePhoto,
+      'serviceName': serviceName,
+      'serviceUID': serviceUID,
+      'subCategoryServices': subCategoryServices
+          .map((subCategoryService) => subCategoryService.toMap())
+          .toList(),
+    };
+  }
 
   factory Service.fromMap(Map<String, dynamic> map) {
     List<SubCategoryService> subCategoryServices = [];
@@ -73,7 +90,15 @@ class SubCategoryService {
       required this.subCategoryServicePhoto,
       required this.serviceCategoryUID,
       required this.noOfUsers});
-
+ Map<String, dynamic> toMap() {
+    return {
+      'subCategoryServicePhoto': subCategoryServicePhoto,
+      'subCategoryServiceName': subCategoryServiceName,
+      'subCategoryServiceUID': subCategoryServiceUID,
+      'serviceCategoryUID': serviceCategoryUID,
+      'noOfUsers': noOfUsers,
+    };
+  }
   factory SubCategoryService.fromMap(Map<String, dynamic> map) {
     return SubCategoryService(
         subCategoryServicePhoto: map['subCategoryServicePhoto'],
