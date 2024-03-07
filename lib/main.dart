@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,10 +30,25 @@ Future<void> main() async {
                 measurementId: "G-L7HL2B1DRS"))
         : Firebase.initializeApp();
     logger.i("Firebase initialized successfully");
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     runApp(ProviderScope(child: MyApp()));
   } catch (e) {
     logger.e("Firebase initialization error: $e");
   }
+}
+
+@pragma("vm:entry-point")
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyC2M3UWATaGqkCa1Vn2eq_pmIS63_3-k8s",
+      appId: "1:902375901390:web:6f9fbd993a654e74e1289f",
+      messagingSenderId: "902375901390",
+      projectId: "handyman-5ce4f",
+    ),
+  );
+
+  // Your background handler logic goes here
 }
 
 class MyApp extends ConsumerWidget {
