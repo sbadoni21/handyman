@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:handyman/models/service_provider_model.dart';
+import 'package:handyman/screens/booknow_screen.dart';
 import 'package:handyman/utils/app_colors.dart';
 import 'package:handyman/widgets/customappbar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -93,12 +94,7 @@ class _ServiceProviderDetailsPageState
                         style: myTextStylefontsize14WhiteW400,
                       ),
                       GestureDetector(
-                        onTap: () {
-                       
-
-
-
-                        },
+                        onTap: () {},
                         child: Icon(
                           Ionicons.add_circle,
                           color: Colors.white,
@@ -147,25 +143,35 @@ class _ServiceProviderDetailsPageState
               itemBuilder: (context, index) {
                 final serviceCategory =
                     widget.serviceProvider.serviceSubCategories[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        serviceCategory.serviceSubCategoryName.toString(),
-                        style: myTextStylefontsize14WhiteW400,
-                      ),
-                      Text(
-                        '₹ ${serviceCategory.subServiceCategoryRate.toString()}',
-                        style: myTextStylefontsize14WhiteW400,
-                      ),
-                      const Icon(
-                        Ionicons.add_circle,
-                        color: Colors.white,
-                      )
-                    ],
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BookNowScreen(
+                                serviceProvider: widget.serviceProvider,
+                                serviceSubCategories: serviceCategory)));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          serviceCategory.serviceSubCategoryName.toString(),
+                          style: myTextStylefontsize14WhiteW400,
+                        ),
+                        Text(
+                          '₹ ${serviceCategory.subServiceCategoryRate.toString()}',
+                          style: myTextStylefontsize14WhiteW400,
+                        ),
+                        const Icon(
+                          Ionicons.add_circle,
+                          color: Colors.white,
+                        )
+                      ],
+                    ),
                   ),
                 );
               },

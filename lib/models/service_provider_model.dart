@@ -1,5 +1,4 @@
-import 'package:get/get.dart';
-import 'package:meta/meta.dart';
+
 
 class ServiceProvider {
   final String gstNumber;
@@ -113,27 +112,28 @@ class ServiceSubCategories {
   final String subServiceCategoryUID;
   final String serviceCategoryUID;
   final String serviceSubCategoryName;
+  final String serviceCategoryName;
 
   final List<SubServiceCategoryReviews>? subServiceCategoryReviews;
-  ServiceSubCategories({
-    required this.subServiceCategoryRate,
-    required this.subServiceCategoryUID,
-    required this.serviceCategoryUID,
-    required this.serviceSubCategoryName,
-    this.subServiceCategoryReviews,
-  });
+  ServiceSubCategories(
+      {required this.subServiceCategoryRate,
+      required this.subServiceCategoryUID,
+      required this.serviceCategoryUID,
+      required this.serviceSubCategoryName,
+      this.subServiceCategoryReviews,
+      required this.serviceCategoryName});
 
   factory ServiceSubCategories.fromMap(Map<String, dynamic> map) {
     return ServiceSubCategories(
-      subServiceCategoryRate: map['subServiceCategoryRate'],
-      subServiceCategoryUID: map['subServiceCategoryUID'],
-      serviceCategoryUID: map['serviceCategoryUID'],
-      serviceSubCategoryName: map['serviceSubCategoryName'],
-      subServiceCategoryReviews:
-          (map['subServiceCategoryReviews'] as List<dynamic>)
-              .map((review) => SubServiceCategoryReviews.fromMap(review))
-              .toList(),
-    );
+        subServiceCategoryRate: map['subServiceCategoryRate'],
+        subServiceCategoryUID: map['subServiceCategoryUID'],
+        serviceCategoryUID: map['serviceCategoryUID'],
+        serviceSubCategoryName: map['serviceSubCategoryName'],
+        subServiceCategoryReviews:
+            (map['subServiceCategoryReviews'] as List<dynamic>)
+                .map((review) => SubServiceCategoryReviews.fromMap(review))
+                .toList(),
+        serviceCategoryName: map['serviceCategoryName']);
   }
 }
 

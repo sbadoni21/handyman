@@ -9,7 +9,12 @@ class OrderServices {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> addOrder(
-      User user, ServiceProvider serviceProvider, String bookingId, num serviceCost, String serviceName, String serviceSubCategoryName) async {
+      User user,
+      ServiceProvider serviceProvider,
+      String bookingId,
+      num serviceCost,
+      String serviceName,
+      String serviceSubCategoryName) async {
     try {
       Future<double> calculateDistance(
         double startLat,
@@ -27,12 +32,12 @@ class OrderServices {
           return distance / 1000000;
         } catch (e) {
           print("Error calculating distance: $e");
-          return 0.0; 
+          return 0.0;
         }
       }
 
       double distanceFuture = await calculateDistance(
-        user!.latitude.toDouble(),
+        user.latitude.toDouble(),
         user.longitude.toDouble(),
         serviceProvider.latitude.toDouble(),
         serviceProvider.longitude.toDouble(),
@@ -44,6 +49,7 @@ class OrderServices {
         'providerLocation': serviceProvider.location,
         'providerLongitude': serviceProvider.longitude,
         'review': '',
+        'status': 'initated',
         'serviceCost': serviceCost,
         'serviceLocation': user.location,
         'serviceLocationLatitude': user.latitude,
@@ -51,7 +57,7 @@ class OrderServices {
         'serviceName': serviceName,
         'servicePoviderUID': serviceProvider.uid,
         'serviceProviderName': serviceProvider.name,
-        'serviceSubCategoryName': serviceProvider,
+        'serviceSubCategoryName': serviceSubCategoryName,
         'timeOfBooking': Timestamp.now(),
         'bookingUID': bookingId,
       };

@@ -15,6 +15,7 @@ class BookingModel {
   final String serviceProviderName;
   final String serviceSubCategoryName;
   final Timestamp timeOfBooking;
+  final String status;
   final String bookingUID;
   BookingModel(
       {required this.distance,
@@ -31,6 +32,7 @@ class BookingModel {
       required this.serviceProviderName,
       required this.serviceSubCategoryName,
       required this.timeOfBooking,
+      required this.status,
       required this.bookingUID});
 
   factory BookingModel.fromMap(Map<String, dynamic> map) {
@@ -49,7 +51,8 @@ class BookingModel {
         serviceProviderName: map['serviceProviderName'] ?? "",
         serviceSubCategoryName: map['serviceSubCategoryName'] ?? "",
         timeOfBooking: map['timeOfBooking'] ?? "",
-        bookingUID: map['bookingUID']);
+        bookingUID: map['bookingUID'],
+        status: map['status']);
   }
 
   Map<String, dynamic> toMap() {
@@ -68,7 +71,8 @@ class BookingModel {
       'serviceProviderName': serviceProviderName,
       'serviceSubCategoryName': serviceSubCategoryName,
       'timeOfBooking': timeOfBooking,
-      'bookingUID': bookingUID
+      'bookingUID': bookingUID,
+      'status': status
     };
   }
 }
