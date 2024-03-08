@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:handyman/models/service_categories_model.dart';
 import 'package:handyman/models/service_provider_model.dart';
 import 'package:handyman/models/user.dart';
+import 'package:handyman/screens/bookings_serviceprovider_confirmation_screen.dart';
 import 'package:handyman/screens/home_screen.dart';
 import 'package:handyman/services/orders/place_order_service.dart';
 import 'package:handyman/utils/app_colors.dart';
@@ -33,13 +35,18 @@ class _BookNowScreenState extends ConsumerState<BookNowScreen> {
         onPressed: () async {
           User? user = ref.read(userProvider);
           String bookingId = randomAlphaNumeric(10);
-          await OrderServices().addOrder(
-              user!,
-              widget.serviceProvider,
-              bookingId,
-              widget.serviceSubCategories.subServiceCategoryRate,
-              widget.serviceSubCategories.serviceCategoryName,
-              widget.serviceSubCategories.serviceSubCategoryName);
+          // await OrderServices().addOrder(
+          //     user!,
+          //     widget.serviceProvider,
+          //     bookingId,
+          //     widget.serviceSubCategories.subServiceCategoryRate,
+          //     widget.serviceSubCategories.serviceCategoryName,
+          //     widget.serviceSubCategories.serviceSubCategoryName);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      BookingServiceProviderConfirmationScreen()));
         },
         child: Text(
           'Book Now',
