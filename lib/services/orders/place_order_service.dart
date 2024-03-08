@@ -1,18 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:handyman/models/user.dart';
 import 'package:handyman/models/service_provider_model.dart';
+import 'package:handyman/models/user.dart';
 
-class OrderServices   {
+class OrderServices {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> addOrder(
-      User user,
-      ServiceProvider serviceProvider,
-      String bookingId,
-      num serviceCost,
-      String serviceName,
-      String serviceSubCategoryName) async {
+    User user,
+    ServiceProvider serviceProvider,
+    String bookingId,
+    num serviceCost,
+    String serviceName,
+    String serviceSubCategoryName,
+  ) async {
     try {
       Future<double> calculateDistance(
         double startLat,
@@ -41,14 +42,17 @@ class OrderServices   {
         serviceProvider.longitude.toDouble(),
       );
 
+      DocumentReference orderRef =
+          _firestore.collection('orders').doc(bookingId);
+
       Map<String, dynamic> orderData = {
         'distance': distanceFuture,
         'providerLatitude': serviceProvider.latitude,
         'providerLocation': serviceProvider.location,
         'providerLongitude': serviceProvider.longitude,
         'review': '',
-        'status': 'initated',
-        'serviceCost': serviceCost,
+        'status': 'initiated', 
+        'serviceCost': serviceCost.toString(),
         'serviceLocation': user.location,
         'serviceLocationLatitude': user.latitude,
         'serviceLocationLongitude': user.longitude,
@@ -60,12 +64,11 @@ class OrderServices   {
         'bookingUID': bookingId,
       };
 
-      await _firestore.collection('orders').add(orderData);
+
+      await orderRef.set(orderData);
     } catch (e) {
       print('Error adding order: $e');
       throw e;
     }
   }
 }
-
-

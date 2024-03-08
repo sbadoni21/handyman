@@ -8,6 +8,12 @@ class NotificationService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _flutterNotificationPlugin =
       FlutterLocalNotificationsPlugin();
+  NotificationService() {
+    _flutterNotificationPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()!
+        .requestNotificationsPermission();
+  }
 
   void requestNotificationPermission() async {
     print("=======>requestNotificationPermission");
@@ -145,7 +151,7 @@ class NotificationService {
         android: androidNotificationDetails, iOS: darwinNotificationDetails);
 
     Future.delayed(Duration.zero, () {
-      _flutterNotificationPlugin.show(0, message.notification!.title.toString(),
+      _flutterNotificationPlugin.show(1, message.notification!.title.toString(),
           message.notification!.body.toString(), notificationDetails);
     });
   }

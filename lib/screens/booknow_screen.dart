@@ -35,13 +35,13 @@ class _BookNowScreenState extends ConsumerState<BookNowScreen> {
         onPressed: () async {
           User? user = ref.read(userProvider);
           String bookingId = randomAlphaNumeric(10);
-          // await OrderServices().addOrder(
-          //     user!,
-          //     widget.serviceProvider,
-          //     bookingId,
-          //     widget.serviceSubCategories.subServiceCategoryRate,
-          //     widget.serviceSubCategories.serviceCategoryName,
-          //     widget.serviceSubCategories.serviceSubCategoryName);
+          await OrderServices().addOrder(
+              user!,
+              widget.serviceProvider,
+              bookingId,
+              widget.serviceSubCategories.subServiceCategoryRate,
+              widget.serviceSubCategories.serviceCategoryName,
+              widget.serviceSubCategories.serviceSubCategoryName);
           Navigator.push(
               context,
               MaterialPageRoute(
