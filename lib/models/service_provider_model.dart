@@ -1,5 +1,3 @@
-
-
 class ServiceProvider {
   final String gstNumber;
   final String aadharCard;
@@ -18,6 +16,7 @@ class ServiceProvider {
   final String uid;
   final num latitude;
   final num longitude;
+  final String deviceToken;
 
   ServiceProvider(
       {required this.gstNumber,
@@ -36,6 +35,7 @@ class ServiceProvider {
       required this.serviceType,
       required this.totalServices,
       required this.latitude,
+      required this.deviceToken,
       required this.longitude});
 
   factory ServiceProvider.fromMap(Map<String, dynamic> map) {
@@ -51,6 +51,7 @@ class ServiceProvider {
       photo: map['photo'],
       latitude: map['latitude'] ?? 0,
       rating: map['rating'],
+      deviceToken:map['deviceToken']?? "",
       longitude: map['longitude'] ?? 0,
       reviews: (map['reviews'] as List<dynamic>)
           .map((review) => Review.fromMap(review))
