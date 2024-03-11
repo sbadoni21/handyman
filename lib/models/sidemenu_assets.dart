@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:handyman/screens/helpcenter_screen.dart';
 import 'package:handyman/screens/home_screen.dart';
+import 'package:handyman/screens/plus_membership_sceen.dart';
 import 'package:handyman/screens/setting_screen.dart';
 
 List<Map<String, dynamic>> sideMenuItems = [
@@ -14,13 +15,13 @@ List<Map<String, dynamic>> sideMenuItems = [
     "icon": Icons.call,
     "text": "Help Center",
     "key": "helpCenter",
-    'route': HelpCenterScreen(),
+    'route': const HelpCenterScreen(),
   },
   {
     "icon": Icons.star_border,
     "text": "Plus Membership",
     "key": "plusMemberShip",
-    'route': HelpCenterScreen(),
+    'route': PlusMemberShipScreen(),
   },
   {
     "icon": Icons.settings,
