@@ -6,6 +6,7 @@ import 'package:handyman/screens/account_screen.dart';
 import 'package:handyman/utils/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -130,15 +131,10 @@ class _RewardScreenState extends ConsumerState<RewardScreen> {
 
   Widget _buildTop() {
     return Center(
-      child: Container(
-        height: 150,
-        width: 200,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/rewards&refers.png'),
-            fit: BoxFit.contain,
-          ),
-        ),
+      child: SizedBox(
+        height: 250,
+        width: 250,
+        child: Lottie.asset('assets/lottie/refer.json'),
       ),
     );
   }

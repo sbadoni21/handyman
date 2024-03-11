@@ -108,6 +108,9 @@ flutter:
         - assets/lottie/locationforpayment.json
         - assets/lottie/confirmation.json
         - assets/lottie/waiting_for_confirmation.json
+        - assets/lottie/no_orders_found.json
+        - assets/lottie/error404.json
+        - assets/lottie/refer.json
 
 
 

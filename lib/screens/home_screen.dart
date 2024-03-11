@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,7 +9,6 @@ import 'package:handyman/models/service_categories_model.dart';
 import 'package:handyman/models/user.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/account_screen.dart';
-import 'package:handyman/screens/addata.dart';
 import 'package:handyman/screens/my_bookings_page.dart';
 import 'package:handyman/screens/reward_screen.dart';
 import 'package:handyman/screens/search_page.dart';
@@ -27,7 +24,6 @@ import 'package:handyman/widgets/categories_component.dart';
 import 'package:handyman/widgets/coursestile_component.dart';
 import 'package:handyman/widgets/customappbar.dart';
 import 'package:handyman/widgets/heading_component.dart';
-import 'package:handyman/widgets/search_bar.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -145,6 +141,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   ) {
     return !isFetchingLocation
         ? SafeArea(
+            child: WillPopScope(
+            onWillPop: () async {
+              if (_pageController.page == 0) {
+                Navigator.pop(context);
+                return false;
+              } else {
+                _pageController.previousPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+                return false;
+              }
+            },
             child: Scaffold(
               key: _scaffoldKey,
               backgroundColor: Colors.black,
@@ -163,13 +172,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 },
                 children: [
                   _buildHome(context),
-                 const MyBookings(),
-                 const RewardScreen(),
-                 const AccountScreen()
+                  const MyBookings(),
+                  const RewardScreen(),
+                  const AccountScreen()
                 ],
               ),
             ),
-          )
+          ))
         : Scaffold(
             body: Center(
               child: Column(

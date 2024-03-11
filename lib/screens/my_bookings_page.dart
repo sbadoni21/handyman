@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:handyman/models/bookings_model.dart';
 import 'package:handyman/models/user.dart';
-import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/bookings_details_page.dart';
 import 'package:handyman/screens/home_screen.dart';
 import 'package:handyman/services/data/mybookings_service.dart';
 import 'package:handyman/utils/app_colors.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:lottie/lottie.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 
 class MyBookings extends ConsumerStatefulWidget {
   const MyBookings({Key? key}) : super(key: key);
@@ -63,9 +62,29 @@ class _MyBookingsState extends ConsumerState<MyBookings> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Text("Error: ${snapshot.error}");
+          return Column(
+            children: [
+              Lottie.asset(
+                'assets/lottie/error404.json',
+              ),
+              Text(
+                'Error 404',
+                style: myTextStylefontsize14WhiteW400,
+              )
+            ],
+          );
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Text("No bookings available.");
+          return Column(
+            children: [
+              Lottie.asset(
+                'assets/lottie/no_orders_found.json',
+              ),
+              Text(
+                'No orders found',
+                style: myTextStylefontsize14WhiteW400,
+              )
+            ],
+          );
         } else {
           List<BookingModel> myBookings = snapshot.data!;
 
