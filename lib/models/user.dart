@@ -14,6 +14,7 @@ class User {
   final List? myOrders;
   final num latitude;
   final num longitude;
+  final List<MyCart>? myCart;
 
   User(
       {required this.deviceToken,
@@ -24,6 +25,7 @@ class User {
       required this.referralCode,
       required this.status,
       required this.uid,
+      this.myCart,
       required this.type,
       required this.wallet,
       required this.location,
@@ -45,10 +47,57 @@ class User {
       dob: map['DOB'] ?? "",
       wallet: map['wallet'] ?? "",
       type: map['type'] ?? "",
+      myCart: (map['myCart'] as List<dynamic>?)
+          ?.map((item) => MyCart.fromMap(item))
+          .toList(),
       location: map['location'] ?? "",
       latitude: map['latitude'] ?? 0,
       longitude: map['longitude'] ?? 0,
       myOrders: List<String>.from(map['myOrders'] ?? []),
     );
+  }
+}
+
+class MyCart {
+  final num cost;
+  final String serviceCategoryName;
+  final String subCategoryServiceUID;
+  final String serviceCategoryUID;
+  final String serviceProviderName;
+  final String serviceProviderPhoto;
+  final String serviceProviderUID;
+  final String subCategoryServiceName;
+  MyCart(
+      {required this.cost,
+      required this.subCategoryServiceUID,
+      required this.serviceCategoryName,
+      required this.serviceCategoryUID,
+      required this.serviceProviderName,
+      required this.serviceProviderPhoto,
+      required this.serviceProviderUID,
+      required this.subCategoryServiceName});
+  Map<String, dynamic> toMap() {
+    return {
+      'serviceCategoryName': serviceCategoryName,
+      'subCategoryServiceName': subCategoryServiceName,
+      'subCategoryServiceUID': subCategoryServiceUID,
+      'serviceCategoryUID': serviceCategoryUID,
+      'serviceProviderName': serviceProviderName,
+      'serviceProviderPhoto': serviceProviderPhoto,
+      'serviceProviderUID': serviceProviderUID,
+      'cost': cost
+    };
+  }
+
+  factory MyCart.fromMap(Map<String, dynamic> map) {
+    return MyCart(
+        serviceCategoryName: map['serviceCategoryName'],
+        cost: map['cost'],
+        subCategoryServiceUID: map['subCategoryServiceUID'],
+        serviceCategoryUID: map['serviceCategoryUID'],
+        serviceProviderPhoto: map['serviceProviderPhoto'],
+        serviceProviderUID: map['serviceProviderUID'],
+        serviceProviderName: map['serviceProviderName'],
+        subCategoryServiceName: map['subCategoryServiceName']);
   }
 }

@@ -172,7 +172,8 @@ extension on User {
       'wallet': wallet,
       'DOB': dob,
       'location': location,
-      'myOrders':myOrders
+      'myOrders':myOrders,
+      'myCart': myCart
     };
   }
 }

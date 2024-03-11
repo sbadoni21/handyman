@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:handyman/models/service_categories_model.dart';
 import 'package:handyman/models/service_provider_model.dart';
 import 'package:handyman/models/user.dart';
 import 'package:handyman/screens/bookings_serviceprovider_confirmation_screen.dart';

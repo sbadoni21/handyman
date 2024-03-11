@@ -108,7 +108,8 @@ class AuthenticationServices {
               'myOrders': [],
               'latitude': 0,
               'longitude': 0,
-              'deviceToken': deviceToken
+              'deviceToken': deviceToken,
+              'myCart': []
             });
           }
 
@@ -236,7 +237,8 @@ class AuthenticationServices {
           'DOB': dob,
           'latitude': 0,
           'longitude': 0,
-          'deviceToken': deviceToken
+          'deviceToken': deviceToken,
+          'myCart': []
         }, SetOptions(merge: true));
         var status = await Permission.location.status;
         if (!status.isGranted) {

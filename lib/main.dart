@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/home_screen.dart';
-import 'package:handyman/screens/infoscreen.dart';
 import 'package:handyman/screens/splash_screen.dart';
 import 'package:logger/logger.dart';
 
@@ -65,15 +64,14 @@ class MyApp extends ConsumerWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       navigatorKey: navigatorKey,
-      home: userState == null ? SplashScreen() : HomeScreen(),
-      // home: InfoScreen(),
+      home: userState == null ? const SplashScreen() : const HomeScreen(),
     );
   }
 }
 
 class ErrorApp extends StatelessWidget {
   final String errorMessage;
-  ErrorApp(this.errorMessage);
+  const ErrorApp(this.errorMessage);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
