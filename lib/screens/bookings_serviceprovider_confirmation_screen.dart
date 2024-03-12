@@ -3,8 +3,11 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:handyman/models/bookings_model.dart';
 import 'package:handyman/services/data/check_order_status_service.dart';
+import 'package:handyman/utils/app_colors.dart';
 import 'package:handyman/widgets/customappbar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class BookingServiceProviderConfirmationScreen extends ConsumerStatefulWidget {
   final String bookingID;
@@ -23,7 +26,8 @@ class _BookingServiceProviderConfirmationScreenState
   late Timer _timer;
   late String? status;
   late String? state;
-
+  final String confirmed = OrderStatusModel(OrderStatus.confirmed).toString();
+  final String initated = OrderStatusModel(OrderStatus.initiated).toString();
   @override
   void initState() {
     super.initState();
@@ -47,26 +51,22 @@ class _BookingServiceProviderConfirmationScreenState
       appBar: const CustomAppBar(),
       body: ListView(
         children: [
+          status == initated
+              ? Lottie.asset('assets/lottie/waiting_for_confirmation.json')
+              : Lottie.asset('assets/lottie/confirmation.json'),
           Center(
-            child: CircularCountDownTimer(
-              duration: 300,
-              initialDuration: 0,
-              controller: CountDownController(),
-              width: 150,
-              height: 150,
-              ringColor: Colors.grey[300]!,
-              ringGradient: null,
-              fillColor: Colors.blue,
-              fillGradient: null,
-              backgroundColor: Colors.white,
-              strokeWidth: 5.0,
-              strokeCap: StrokeCap.round,
-              textStyle: const TextStyle(fontSize: 30, color: Colors.black),
-              textFormat: CountdownTextFormat.MM_SS,
-              isReverseAnimation: false,
-              isTimerTextShown: true,
-              autoStart: true,
-              onComplete: () {},
+            child: LinearPercentIndicator(
+              width: MediaQuery.of(context).size.width - 40,
+              animation: true,
+              lineHeight: 20.0,
+              animationDuration: 300000,
+              percent: 1.0,
+              center: Text(
+                "Waiting for confirmation",
+                style: myTextStylefontsize12WhiteW300,
+              ),
+              linearStrokeCap: LinearStrokeCap.roundAll,
+              progressColor: bgColor,
             ),
           ),
           Text(status ?? ''),
@@ -74,9 +74,9 @@ class _BookingServiceProviderConfirmationScreenState
       ),
     );
   }
-    @override
+
+  @override
   void dispose() {
     super.dispose();
-    
   }
 }
