@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:handyman/models/bookings_model.dart';
 import 'package:handyman/models/service_provider_model.dart';
 import 'package:handyman/models/user.dart';
 
@@ -8,7 +9,7 @@ class OrderServices {
 
   Future<void> addOrder(
     User user,
-    ServiceProvider serviceProvider,
+    String serviceProviderUID,
     String bookingId,
     num serviceCost,
     String serviceName,
@@ -35,6 +36,14 @@ class OrderServices {
         }
       }
 
+      DocumentSnapshot<Map<String, dynamic>> serviceProviderSnapshot =
+          await FirebaseFirestore.instance
+              .collection('serviceProviders')
+              .doc(serviceProviderUID)
+              .get();
+      ServiceProvider serviceProvider = ServiceProvider.fromMap(
+        serviceProviderSnapshot.data() as Map<String, dynamic>,
+      );
       double distanceFuture = await calculateDistance(
         user.latitude.toDouble(),
         user.longitude.toDouble(),
@@ -44,14 +53,15 @@ class OrderServices {
 
       DocumentReference orderRef =
           _firestore.collection('orders').doc(bookingId);
-
+      OrderStatusModel initialOrderStatus =
+          OrderStatusModel(OrderStatus.initiated);
       Map<String, dynamic> orderData = {
         'distance': distanceFuture,
         'providerLatitude': serviceProvider.latitude,
         'providerLocation': serviceProvider.location,
         'providerLongitude': serviceProvider.longitude,
         'review': '',
-        'status': 'initiated', 
+        'status': initialOrderStatus.toString(),
         'serviceCost': serviceCost.toString(),
         'serviceLocation': user.location,
         'serviceLocationLatitude': user.latitude,
@@ -63,7 +73,6 @@ class OrderServices {
         'timeOfBooking': Timestamp.now(),
         'bookingUID': bookingId,
       };
-
 
       await orderRef.set(orderData);
     } catch (e) {

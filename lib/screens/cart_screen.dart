@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:handyman/models/user.dart';
+import 'package:handyman/screens/booknow_screen.dart';
 import 'package:handyman/screens/home_screen.dart';
 import 'package:handyman/utils/app_colors.dart';
 import 'package:handyman/widgets/customappbar.dart';
@@ -48,8 +49,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
           Expanded(
             child: buildCartItems(),
           ),
-          buildTotalCostEstimated(),
-          buildCheckOutButton()
+          // buildTotalCostEstimated(),
         ],
       ),
     );
@@ -90,7 +90,20 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 children: [
                   Text("Service Category: ${cartItem.serviceCategoryName}"),
                   Text("Service: ${cartItem.subCategoryServiceName}"),
-                  Text('Cost: ${cartItem.cost}')
+                  Text('Cost: ${cartItem.cost}'),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.deepPurple,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 2)),
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: ((context) => BookNowScreen(serviceProviderUID: cartItem.serviceProviderUID,serviceCategoryName: cartItem.serviceCategoryName, serviceCategoryUID: cartItem.serviceCategoryUID ,serviceProviderName: cartItem.serviceProviderName ,subCategoryServiceName: cartItem.serviceCategoryName,subCategoryServiceUID: cartItem.subCategoryServiceUID,
+                        cost: cartItem.cost,) )));
+                      },
+                      child: Text(
+                        'Check Out',
+                        style: myTextStylefontsize12WhiteW300,
+                      )),
                 ],
               ),
             );
@@ -100,55 +113,55 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     );
   }
 
-  Widget buildCheckOutButton() {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple),
-                onPressed: () {},
-                child: Text(
-                  'Check Out',
-                  style: myTextStylefontsize16white,
-                )),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget buildCheckOutButton() {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(20.0),
+  //     child: Row(
+  //       children: [
+  //         Expanded(
+  //           child: ElevatedButton(
+  //               style: ElevatedButton.styleFrom(
+  //                   backgroundColor: Colors.deepPurple),
+  //               onPressed: () {},
+  //               child: Text(
+  //                 'Check Out',
+  //                 style: myTextStylefontsize16white,
+  //               )),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  Widget buildTotalCostEstimated() {
-    User? user = ref.watch(userProvider);
-    double totalCost = user!.myCart?.fold<double>(
-          0,
-          (previousValue, cartItem) => previousValue + cartItem.cost,
-        ) ??
-        0;
+  // Widget buildTotalCostEstimated() {
+  //   User? user = ref.watch(userProvider);
+  //   double totalCost = user!.myCart?.fold<double>(
+  //         0,
+  //         (previousValue, cartItem) => previousValue + cartItem.cost,
+  //       ) ??
+  //       0;
 
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  'Total Cost:',
-                  style: myTextStylefontsize16white,
-                ),
-                Text(
-                  '₹${totalCost.toStringAsFixed(2)}',
-                  style: myTextStylefontsize16white,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  //   return Padding(
+  //     padding: const EdgeInsets.all(20.0),
+  //     child: Row(
+  //       children: [
+  //         Expanded(
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.end,
+  //             children: [
+  //               Text(
+  //                 'Total Cost:',
+  //                 style: myTextStylefontsize16white,
+  //               ),
+  //               Text(
+  //                 '₹${totalCost.toStringAsFixed(2)}',
+  //                 style: myTextStylefontsize16white,
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

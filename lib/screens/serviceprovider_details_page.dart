@@ -145,12 +145,12 @@ class _ServiceProviderDetailsPageState
                     widget.serviceProvider.serviceSubCategories[index];
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BookNowScreen(
-                                serviceProvider: widget.serviceProvider,
-                                serviceSubCategories: serviceCategory)));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => BookNowScreen(
+                    //             serviceProvider: widget.serviceProvider,
+                    //             serviceSubCategories: serviceCategory)));
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

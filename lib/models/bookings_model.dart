@@ -76,3 +76,32 @@ class BookingModel {
     };
   }
 }
+enum OrderStatus {
+  initiated,
+  confirmed,
+}
+
+class OrderStatusModel {
+  final OrderStatus status;
+ OrderStatusModel(this.status);
+  factory OrderStatusModel.fromString(String statusString) {
+    OrderStatus orderStatus;
+    switch (statusString.toLowerCase()) {
+      case 'initiated':
+        orderStatus = OrderStatus.initiated;
+        break;
+      case 'confirmed':
+        orderStatus = OrderStatus.confirmed;
+        break;
+      default:
+        throw ArgumentError('Invalid order status: $statusString');
+    }
+
+    return OrderStatusModel(orderStatus);
+  }
+
+  @override
+  String toString() {
+    return status.toString().split('.').last; // Remove enum type prefix
+  }
+}
