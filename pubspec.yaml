@@ -111,6 +111,7 @@ flutter:
         - assets/lottie/no_orders_found.json
         - assets/lottie/error404.json
         - assets/lottie/refer.json
+        - assets/lottie/thankyou.json
 
 
 
