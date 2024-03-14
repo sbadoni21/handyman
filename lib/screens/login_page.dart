@@ -3,6 +3,7 @@ import 'package:handyman/models/user.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/home_screen.dart';
 import 'package:handyman/screens/infoscreen.dart';
+import 'package:handyman/screens/otpscreen.dart';
 import 'package:handyman/screens/sign_up_page.dart';
 import 'package:handyman/services/auth/authentication.dart';
 import 'package:handyman/utils/app_colors.dart';
@@ -276,12 +277,86 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       width: 80,
                       alignment: Alignment.center,
                       child: Text('Sign Up')),
-                )
+                ),
+                _huildPhoneSignup()
               ],
             )
           ],
         ),
       ),
+    );
+  }
+
+  Widget _huildPhoneSignup() {
+    return Column(
+      children: [
+        SizedBox(
+          width: 200,
+          child: OutlinedButton(
+            onPressed: () async {
+              phoneAuthDialogBox(context);
+            },
+            style: OutlinedButton.styleFrom(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              backgroundColor: Colors.white,
+              side: const BorderSide(color: bgColor),
+            ),
+            child: Text('Signup via Phone'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> phoneAuthDialogBox(BuildContext context) async {
+    TextEditingController phoneController = TextEditingController();
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Signup via Phone'),
+          content: TextFormField(
+            controller: phoneController,
+            keyboardType: TextInputType.phone,
+            decoration: InputDecoration(
+              labelText: 'Phone Number',
+              hintText: 'Enter your phone number',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                print('Phone Number: ${phoneController.text}');
+                await ref.read(userStateNotifierProvider.notifier).sentOtp(
+                      phone: phoneController.text,
+                      errorStep: () {
+                        // Showing a snackbar requires a Scaffold and a context
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error')),
+                        );
+                      },
+                      nextStep: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => OTPScreen()),
+                        );
+                      },
+                    );
+                Navigator.pop(context);
+              },
+              child: Text('Signup'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

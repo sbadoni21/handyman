@@ -46,9 +46,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       projectId: "handyman-5ce4f",
     ),
   );
-
-  // Your background handler logic goes here
 }
+
 
 class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);

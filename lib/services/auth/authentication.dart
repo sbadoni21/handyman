@@ -34,6 +34,129 @@ class AuthenticationServices {
     }
   }
 
+  static String verifyId = "";
+
+  Future<void> sentOtp({
+    required String phone,
+    required Function errorStep,
+    required Function nextStep,
+  }) async {
+    await FirebaseAuth.instance
+        .verifyPhoneNumber(
+      timeout: Duration(seconds: 30),
+      phoneNumber: "+91$phone",
+      verificationCompleted: (phoneAuthCredential) async {
+        return;
+      },
+      verificationFailed: (error) async {
+        return;
+      },
+      codeSent: (verificationId, forceResendingToken) async {
+        verifyId = verificationId;
+      },
+      codeAutoRetrievalTimeout: (verificationId) async {
+        return;
+      },
+    )
+        .onError((error, stackTrace) {
+      errorStep();
+    });
+  }
+
+  Future<User?> loginWithOtp({required String otp}) async {
+    try {
+      final cred =
+          PhoneAuthProvider.credential(verificationId: verifyId, smsCode: otp);
+
+      final userCredential =
+          await FirebaseAuth.instance.signInWithCredential(cred);
+      if (userCredential.user != null) {
+        final uid = userCredential.user!.uid;
+        bool userExists = await _userExists(uid);
+
+        if (!userExists) {
+          isFirstSignUp = true;
+          final email = userCredential.user!.providerData[0].email;
+          final displayName = userCredential.user!.displayName;
+          final status = 'active';
+          final photoURL = userCredential.user!.photoURL;
+          final coins = 0;
+          final type = "free";
+          final isGoogleUser = true;
+          final referralCode = randomAlphaNumeric(8);
+          const wallet = 0;
+          const dob = '';
+          final deviceToken = await NotificationService().getDeviceToken();
+
+          await _fireStore.collection('users').doc(uid).set({
+            'uid': uid,
+            'email': email,
+            'name': displayName,
+            'status': 'active',
+            'type': "free",
+            'isGoogleUser': isGoogleUser,
+            'location': "",
+            'photo': photoURL ?? "none",
+            'wallet': wallet,
+            'referralCode': referralCode,
+            'DOB': dob,
+            'myOrders': [],
+            'latitude': 0,
+            'longitude': 0,
+            'deviceToken': deviceToken,
+            'myCart': [],
+          });
+        }
+
+        var status = await Permission.location.status;
+        if (!status.isGranted) {
+          if (await Permission.location.request().isGranted) {
+            Position? position = await Geolocator.getCurrentPosition();
+
+            if (position != null) {
+              List<Placemark> placemarks = await placemarkFromCoordinates(
+                position.latitude,
+                position.longitude,
+              );
+
+              if (placemarks.isNotEmpty) {
+                String city = placemarks[0].locality ?? "Unknown City";
+
+                await _fireStore.collection('users').doc(uid).update({
+                  'location': city,
+                });
+              }
+            }
+          }
+        } else {
+          Position? position = await Geolocator.getCurrentPosition();
+
+          if (position != null) {
+            List<Placemark> placemarks = await placemarkFromCoordinates(
+              position.latitude,
+              position.longitude,
+            );
+
+            if (placemarks.isNotEmpty) {
+              String city = placemarks[0].locality ?? "Unknown City";
+
+              await _fireStore.collection('users').doc(uid).update({
+                'location': city,
+                'latitude': position.latitude,
+                'longitude': position.longitude,
+              });
+            }
+          }
+        }
+
+        return userCredential.user;
+      }
+    } catch (error) {
+      print("Error during login: $error");
+      return null;
+    }
+  }
+
   bool isGoogleUser() {
     try {
       User? user = firebaseAuth.currentUser;

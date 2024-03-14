@@ -46,6 +46,37 @@ class UserStateNotifier extends StateNotifier<User?> {
     }
   }
 
+  Future<void> sentOtp({
+    required String phone,
+    required Function errorStep,
+    required Function nextStep,
+  }) async {
+    try {
+      await ref
+          .read(authenticationServicesProvider)
+          .sentOtp(phone: phone, errorStep: errorStep, nextStep: nextStep);
+    } catch (e) {
+      errorStep();
+    }
+  }
+
+  Future<User?> loginWithOtp({required String otp}) async {
+    try {
+      final firebaseUser =
+          await ref.read(authenticationServicesProvider).loginWithOtp(otp: otp);
+      if (firebaseUser != null) {
+        User? user = await fetchUserData(firebaseUser.uid);
+        print('User UID: ${firebaseUser.uid}');
+        return user;
+      } else {
+        return null;
+      }
+    } on auth.FirebaseAuthException catch (e) {
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
   Future<User?> signInWithEmail({
     required String name,
     required String email,
