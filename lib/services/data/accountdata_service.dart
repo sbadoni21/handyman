@@ -14,7 +14,7 @@ class AccountService {
             .update({'name': newName});
       }
     } catch (e) {
-      SnackBar(
+     const SnackBar(
         content: Text('Error while changing name'),
       );
     }

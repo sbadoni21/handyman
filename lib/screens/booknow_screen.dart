@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:handyman/models/service_provider_model.dart';
 import 'package:handyman/models/user.dart';
+import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/bookings_serviceprovider_confirmation_screen.dart';
 import 'package:handyman/screens/home_screen.dart';
 import 'package:handyman/services/orders/place_order_service.dart';
@@ -18,7 +19,7 @@ class BookNowScreen extends ConsumerStatefulWidget {
   final String serviceProviderName;
   final String subCategoryServiceName;
   final String subCategoryServiceUID;
-  final num cost;
+  final String cost;
 
   const BookNowScreen(
       {Key? key,
@@ -51,7 +52,7 @@ class _BookNowScreenState extends ConsumerState<BookNowScreen> {
                 setState(() {
                   isBooking = true;
                 });
-                User? user = ref.read(userProvider);
+                User? user = ref.read(userStateNotifierProvider);
                 String bookingId = randomAlphaNumeric(10);
                 await OrderServices().addOrder(
                     user!,
@@ -116,7 +117,7 @@ class _BookNowScreenState extends ConsumerState<BookNowScreen> {
   }
 
   Widget _buildOrderDetails() {
-    User? user = ref.read(userProvider);
+    User? user = ref.read(userStateNotifierProvider);
     return Container(
       decoration: const BoxDecoration(
           color: bgColor, borderRadius: BorderRadius.all(Radius.circular(20))),

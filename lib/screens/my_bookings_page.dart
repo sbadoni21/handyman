@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:handyman/models/bookings_model.dart';
 import 'package:handyman/models/user.dart';
+import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/bookings_details_page.dart';
 import 'package:handyman/screens/home_screen.dart';
 import 'package:handyman/services/data/mybookings_service.dart';
@@ -23,7 +24,7 @@ class _MyBookingsState extends ConsumerState<MyBookings> {
   @override
   void initState() {
     super.initState();
-    User? user = ref.read(userProvider);
+    User? user = ref.read(userStateNotifierProvider);
   }
 
   @override
@@ -54,7 +55,7 @@ class _MyBookingsState extends ConsumerState<MyBookings> {
   }
 
   Widget _buildMyBookingsProvider() {
-    User? user = ref.read(userProvider);
+    User? user = ref.read(userStateNotifierProvider);
 
     return FutureBuilder<List<BookingModel>>(
       future: MyBookingsProvider().getBookingsUsers(user!.uid),

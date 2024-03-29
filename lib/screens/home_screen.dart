@@ -28,18 +28,13 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-final userProvider = Provider<User?>((ref) {
-  return ref.watch(userStateNotifierProvider);
-});
-
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class HomeScreenState extends ConsumerState<HomeScreen> {
   late User? user;
   int currentIndex = 0;
   late Timer locationTimer;
@@ -50,7 +45,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     _pageController = PageController();
-    user = ref.read(userProvider);
+    user = ref.read(userStateNotifierProvider);
     locationTimer = Timer.periodic(Duration(days: 1), (timer) {
       setState(() {
         isFetchingLocation = true;
@@ -452,7 +447,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       expand: false,
       builder: (context, scrollController) {
         return Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),

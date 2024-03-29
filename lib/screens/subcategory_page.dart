@@ -31,13 +31,13 @@ class SubCategoryPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  SubCategoryServiceDetailsPage(
-                                      subCategoryService:
-                                          subCategoryService)));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) =>
+                      //             SubCategoryServiceDetailsPage(
+                      //                 subCategoryService:
+                      //                     subCategoryService)));
                     },
                     child: SubCategoryLongTile(
                         subCategoryService: subCategoryService),

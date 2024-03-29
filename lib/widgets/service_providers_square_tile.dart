@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:handyman/models/service_provider_model.dart';
 import 'package:handyman/models/user.dart';
+import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/home_screen.dart';
 import 'package:handyman/utils/app_colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -25,7 +26,7 @@ class _ServicePorviderSquareTileState
 
   @override
   void initState() {
-    User? user = ref.read(userProvider);
+    User? user = ref.read(userStateNotifierProvider);
     super.initState();
     distanceFuture = calculateDistance(
       user!.latitude.toDouble(),

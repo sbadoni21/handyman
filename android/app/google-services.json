@@ -81,6 +81,82 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902375901390:android:fd702c554f4f3da2e1289f",
+        "android_client_info": {
+          "package_name": "com.example.handyman_service_provider_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "902375901390-28il68gfh63d8f3qoe4dvddaj1oq2jnl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.handyman_service_provider_app",
+            "certificate_hash": "270440cc025d0a41569569a091e213fedb9d3983"
+          }
+        },
+        {
+          "client_id": "902375901390-5chgv9ncvcjps78fvqkljh7st95d0i1h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.handyman_service_provider_app",
+            "certificate_hash": "ae97a88acc9d06c6601ce62950bff3bccf363646"
+          }
+        },
+        {
+          "client_id": "902375901390-7trs1gkvj8g6m5074rmr5n9vbvko5bal.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.handyman_service_provider_app",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "902375901390-keniq3b23ucbjtht3ecbvtm08nh5f0t1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.handyman_service_provider_app",
+            "certificate_hash": "1cd2b47175eab3b90a52effead6de7622a4069e2"
+          }
+        },
+        {
+          "client_id": "902375901390-thh162q3j4ukn2dtn1qb3mu5m893bfvm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.handyman_service_provider_app",
+            "certificate_hash": "bbd76b433431e2e67d31826077d3dd2dda803db7"
+          }
+        },
+        {
+          "client_id": "902375901390-9k0rd74ootg6n8n22ivl1857rce877f1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhrDCT_Vg_8u2-fk64PGSA6jlUBsN8LCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "902375901390-9k0rd74ootg6n8n22ivl1857rce877f1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "902375901390-4djv3hgh0phm1pc3bb358kqdg22li4em.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.handyman"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

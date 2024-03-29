@@ -11,7 +11,7 @@ class OrderServices {
     User user,
     String serviceProviderUID,
     String bookingId,
-    num serviceCost,
+    String serviceCost,
     String serviceName,
     String serviceSubCategoryName,
   ) async {
@@ -73,7 +73,13 @@ class OrderServices {
         'timeOfBooking': Timestamp.now(),
         'bookingUID': bookingId,
       };
-
+      DocumentReference serviceProviderRef =
+          _firestore.collection('serviceProviders').doc(serviceProviderUID);
+      CollectionReference myOrdersCollectionRef =
+          serviceProviderRef.collection('myOrders');
+      await myOrdersCollectionRef.doc(bookingId).set({
+        'orderID': bookingId,
+      });
       await orderRef.set(orderData);
     } catch (e) {
       print('Error adding order: $e');

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:handyman/models/user.dart';
+import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/cart_screen.dart';
 import 'package:handyman/screens/home_screen.dart';
+import 'package:handyman/screens/search_page.dart';
 import 'package:handyman/utils/app_colors.dart';
 import 'package:ionicons/ionicons.dart';
 
@@ -62,7 +64,7 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
   }
 
   void _showWalletBottomSheet(BuildContext context) {
-    User? user = ref.watch(userProvider);
+    User? user = ref.watch(userStateNotifierProvider);
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {

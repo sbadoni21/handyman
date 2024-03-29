@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:handyman/models/service_categories_model.dart';
-import 'package:handyman/models/service_provider_model.dart';
 import 'package:riverpod/riverpod.dart';
 
 final serviceCategoriesServiceProvider =

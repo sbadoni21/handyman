@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:handyman/models/user.dart';
+import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/home_screen.dart';
 import 'package:handyman/services/orders/place_order_service.dart';
 import 'package:random_string/random_string.dart';
@@ -16,7 +17,7 @@ class _ServiceBookingPageState extends ConsumerState<ServiceBookingPage> {
   @override
   void initstate() {
     super.initState();
-    User? user = ref.read(userProvider);
+    User? user = ref.read(userStateNotifierProvider);
   }
 
   Future<void> _handleOrders(user, serviceProvider, serviceCost, serviceName,

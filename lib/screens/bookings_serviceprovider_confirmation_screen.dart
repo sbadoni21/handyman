@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:handyman/models/bookings_model.dart';
 import 'package:handyman/services/data/check_order_status_service.dart';
@@ -24,23 +23,21 @@ class BookingServiceProviderConfirmationScreen extends ConsumerStatefulWidget {
 class _BookingServiceProviderConfirmationScreenState
     extends ConsumerState<BookingServiceProviderConfirmationScreen> {
   late Timer _timer;
-  late String? status;
-  late String? state;
-  final String confirmed = OrderStatusModel(OrderStatus.confirmed).toString();
-  final String initated = OrderStatusModel(OrderStatus.initiated).toString();
+  String? status;
+
   @override
   void initState() {
     super.initState();
-    _startTimer();
     status = OrderStatusModel(OrderStatus.initiated).toString();
-    state = OrderStatusModel(OrderStatus.initiated).toString();
+    _initializeTimer();
   }
 
-  void _startTimer() {
+  void _initializeTimer() async {
     _timer = Timer.periodic(const Duration(minutes: 1), (Timer timer) async {
-      state = await OrderStatusService().checkOrderStatus(widget.bookingID);
+      String? newState =
+          await OrderStatusService().checkOrderStatus(widget.bookingID);
       setState(() {
-        status = state;
+        status = newState;
       });
     });
   }
@@ -51,7 +48,7 @@ class _BookingServiceProviderConfirmationScreenState
       appBar: const CustomAppBar(),
       body: ListView(
         children: [
-          status == initated
+          status == OrderStatusModel(OrderStatus.initiated).toString()
               ? Lottie.asset('assets/lottie/waiting_for_confirmation.json')
               : Lottie.asset('assets/lottie/confirmation.json'),
           Center(
@@ -59,7 +56,7 @@ class _BookingServiceProviderConfirmationScreenState
               width: MediaQuery.of(context).size.width - 40,
               animation: true,
               lineHeight: 20.0,
-              animationDuration: 300000,
+              animationDuration: 300,
               percent: 1.0,
               center: Text(
                 "Waiting for confirmation",
@@ -77,6 +74,7 @@ class _BookingServiceProviderConfirmationScreenState
 
   @override
   void dispose() {
+    _timer.cancel();
     super.dispose();
   }
 }

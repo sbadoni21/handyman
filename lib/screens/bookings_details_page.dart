@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:handyman/models/bookings_model.dart';
 import 'package:handyman/models/user.dart';
+import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/home_screen.dart';
 import 'package:handyman/services/data/mybookings_service.dart';
 import 'package:handyman/utils/app_colors.dart';
@@ -194,7 +195,7 @@ class _MyBookingsDetailsPageState extends ConsumerState<MyBookingsDetailsPage> {
   }
 
   Future<void> _buildBottom() async {
-    User? user = ref.read(userProvider);
+    User? user = ref.read(userStateNotifierProvider);
 
     await showModalBottomSheet(
       context: context,

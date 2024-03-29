@@ -4,9 +4,6 @@ import 'package:handyman/models/user.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/widgets/search_bar.dart';
 
-final userProvider = Provider<User?>((ref) {
-  return ref.watch(userStateNotifierProvider);
-});
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -18,7 +15,7 @@ class SearchPage extends ConsumerStatefulWidget {
 class _SearchBarButtonState extends ConsumerState<SearchPage> {
   @override
   Widget build(BuildContext context) {
-    User? user = ref.read(userProvider);
+    User? user = ref.read(userStateNotifierProvider);
 
     return SafeArea(
       child: Scaffold(
@@ -68,7 +65,7 @@ class _SearchBarButtonState extends ConsumerState<SearchPage> {
                         //               padding: const EdgeInsets.only(
                         //                   left: 8.0, right: 8),
                         //               child: Tiles(
-                        //                 course: searchResult,
+                        //                 course:  searchResult,
                         //               )),
                         //         );
                         //       },

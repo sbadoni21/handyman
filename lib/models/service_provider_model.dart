@@ -1,163 +1,166 @@
 class ServiceProvider {
-  final String gstNumber;
+ final String name;
+  final String photo;
+  final String? gstNumber;
   final String aadharCard;
   final String experience;
   final String location;
-  final String name;
+  final String? email;
   final String panCard;
-  final num phoneNumber;
-  final String photo;
+  final String phoneNumber;
+  final num wallet;
   final String rating;
-  final List<Review> reviews;
-  final List<ServiceCategories> serviceCategories;
-  final List<ServiceSubCategories> serviceSubCategories;
-  final String serviceType;
-  final String totalServices;
+  List<Services>? services;
+  final num totalServices;
+  final String? aadharCardPhoto;
   final String uid;
   final num latitude;
+  final bool isGoogleUser;
   final num longitude;
   final String deviceToken;
+  final String referralCode;
+  final num totalEarnings;
 
   ServiceProvider(
-      {required this.gstNumber,
-      required this.aadharCard,
-      required this.experience,
-      required this.location,
-      required this.name,
-      required this.uid,
-      required this.panCard,
-      required this.phoneNumber,
-      required this.photo,
-      required this.rating,
-      required this.reviews,
-      required this.serviceCategories,
-      required this.serviceSubCategories,
-      required this.serviceType,
-      required this.totalServices,
-      required this.latitude,
-      required this.deviceToken,
-      required this.longitude});
+      { this.gstNumber,
+    required this.wallet,
+    required this.aadharCard,
+    required this.experience,
+    required this.location,
+    required this.referralCode,
+    this.email,
+    required this.name,
+    this.aadharCardPhoto,
+    required this.uid,
+    required this.panCard,
+    required this.isGoogleUser,
+    required this.phoneNumber,
+    required this.photo,
+    required this.rating,
+    this.services,
+    required this.totalServices,
+    required this.latitude,
+    required this.deviceToken,
+    required this.longitude,
+    required this.totalEarnings});
 
   factory ServiceProvider.fromMap(Map<String, dynamic> map) {
     return ServiceProvider(
-      gstNumber: map['GSTNumber'],
-      aadharCard: map['aadharCard'],
-      experience: map['experience'],
-      location: map['location'],
-      name: map['name'],
-      uid: map['uid'],
-      panCard: map['panCard'],
-      phoneNumber: map['phoneNumber'],
-      photo: map['photo'],
-      latitude: map['latitude'] ?? 0,
-      rating: map['rating'],
-      deviceToken:map['deviceToken']?? "",
-      longitude: map['longitude'] ?? 0,
-      reviews: (map['reviews'] as List<dynamic>)
-          .map((review) => Review.fromMap(review))
-          .toList(),
-      serviceCategories: (map['serviceCategories'] as List<dynamic>)
-          .map((serviceCategories) =>
-              ServiceCategories.fromMap(serviceCategories))
-          .toList(),
-      serviceSubCategories: (map['serviceSubCategories'] as List<dynamic>)
-          .map((serviceSubCategories) =>
-              ServiceSubCategories.fromMap(serviceSubCategories))
-          .toList(),
-      serviceType: map['serviceType'],
-      totalServices: map['totalServices'],
-    );
+ gstNumber: map['GSTNumber'] ?? "none",
+        aadharCardPhoto: map['aadharCardPhoto'] ?? "",
+        wallet: map['wallet'] ?? 0,
+        email: map['email'] ?? "none",
+        aadharCard: map['aadharCard'] ?? "",
+        experience: map['experience'] ?? "",
+        location: map['location'] ?? "",
+        referralCode: map['referralCode'] ?? "",
+        name: map['name'] ?? "",
+        uid: map['uid'] ?? "",
+        isGoogleUser: map['isGoogleUser'] ?? false,
+        panCard: map['panCard'] ?? "",
+        phoneNumber: map['phoneNumber'] ?? "",
+        photo: map['photo'] ?? "",
+        latitude: map['latitude'] ?? 0,
+        rating: map['rating'] ?? "",
+        deviceToken: map['deviceToken'] ?? "",
+        longitude: map['longitude'] ?? 0,
+           services: (map['services'] as List<dynamic>)
+                .map((serviceCategories) => Services.fromMap(serviceCategories))
+                .toList() ??
+            [],
+        totalServices: map['totalServices'] ?? "",
+        totalEarnings:map['totalEarnings']?? 0);
+  
   }
 }
 
-class Review {
-  final String customerName;
-  final String customerRating;
-  final String customerReview;
+class Services {
+  final String serviceModelName;
+  final String serviceModelUID;
+  final String? serviceName;
+  final String? serviceUID;
+  final List<SubService>? subServiceCategories;
 
-  Review({
-    required this.customerName,
-    required this.customerRating,
-    required this.customerReview,
+  Services({
+    required this.serviceModelName,
+    required this.serviceModelUID,
+    this.serviceName,
+     this.serviceUID,
+     this.subServiceCategories,
   });
 
-  factory Review.fromMap(Map<String, dynamic> map) {
-    return Review(
-      customerName: map['customerName'],
-      customerRating: map['customerRating'],
-      customerReview: map['customerReview'],
+  factory Services.fromMap(Map<String, dynamic> map) {
+    List<SubService> subServices = [];
+    if (map['subServiceCategories'] != null) {
+      var subServiceList = map['subServiceCategories'] as List;
+      subServices = subServiceList
+          .map((subServiceJson) => SubService.fromMap(subServiceJson))
+          .toList();
+    }
+    return Services(
+      serviceModelName: map['serviceModelName'],
+      serviceModelUID: map['serviceModelUID'],
+      serviceName: map['serviceName'] ?? "",
+      serviceUID: map['serviceUID'] ?? "",
+      subServiceCategories: subServices ?? [],
     );
   }
 }
 
-class ServiceCategories {
-  final String serviceCategory;
+class SubService {
+  final String subCategoryServiceName;
   final String serviceCategoryUID;
-  final String serviceCharge;
+  final String subCategoryServiceUID;
+  final List<String> customerReviews;
+  final String rate;
 
-  ServiceCategories(
-      {required this.serviceCategory,
-      required this.serviceCategoryUID,
-      required this.serviceCharge});
+  SubService({
+    required this.subCategoryServiceName,
+    required this.serviceCategoryUID,
+    required this.subCategoryServiceUID,
+    required this.customerReviews,
+    required this.rate,
+  });
 
-  factory ServiceCategories.fromMap(Map<String, dynamic> map) {
-    return ServiceCategories(
-        serviceCategory: map['serviceCategory'],
-        serviceCategoryUID: map['serviceCategoryUID'],
-        serviceCharge: map['serviceCharge']);
+  factory SubService.fromMap(Map<String, dynamic> map) {
+    List<String> reviews = [];
+    if (map['customerReviews'] != null) {
+      var reviewList = map['customerReviews'] as List;
+      reviews = reviewList.map((review) => review.toString()).toList();
+    }
+    return SubService(
+      subCategoryServiceName: map['subCategoryServiceName'],
+      serviceCategoryUID: map['serviceCategoryUID'],
+      subCategoryServiceUID: map['subCategoryServiceUID'],
+      customerReviews: reviews,
+      rate: map['rate'],
+    );
   }
 }
 
-class ServiceSubCategories {
-  final num subServiceCategoryRate;
-  final String subServiceCategoryUID;
-  final String serviceCategoryUID;
-  final String serviceSubCategoryName;
-  final String serviceCategoryName;
 
-  final List<SubServiceCategoryReviews>? subServiceCategoryReviews;
-  ServiceSubCategories(
-      {required this.subServiceCategoryRate,
-      required this.subServiceCategoryUID,
-      required this.serviceCategoryUID,
-      required this.serviceSubCategoryName,
-      this.subServiceCategoryReviews,
-      required this.serviceCategoryName});
-
-  factory ServiceSubCategories.fromMap(Map<String, dynamic> map) {
-    return ServiceSubCategories(
-        subServiceCategoryRate: map['subServiceCategoryRate'],
-        subServiceCategoryUID: map['subServiceCategoryUID'],
-        serviceCategoryUID: map['serviceCategoryUID'],
-        serviceSubCategoryName: map['serviceSubCategoryName'],
-        subServiceCategoryReviews:
-            (map['subServiceCategoryReviews'] as List<dynamic>)
-                .map((review) => SubServiceCategoryReviews.fromMap(review))
-                .toList(),
-        serviceCategoryName: map['serviceCategoryName']);
-  }
-}
-
-class SubServiceCategoryReviews {
+class CustomerReview {
   final String customerName;
+  final String customerOrderId;
   final String customerRating;
   final String customerReview;
-  final String customerOrderId;
   final String customerUID;
 
-  SubServiceCategoryReviews(
-      {required this.customerName,
-      required this.customerRating,
-      required this.customerReview,
-      required this.customerOrderId,
-      required this.customerUID});
+  CustomerReview({
+    required this.customerName,
+    required this.customerOrderId,
+    required this.customerRating,
+    required this.customerReview,
+    required this.customerUID,
+  });
 
-  factory SubServiceCategoryReviews.fromMap(Map<String, dynamic> map) {
-    return SubServiceCategoryReviews(
-        customerName: map['CustomerName'],
-        customerRating: map['CustomerRating'],
-        customerReview: map['CustomerReview'],
-        customerOrderId: map['CustomerOrderId'],
-        customerUID: map['CustomerUID']);
+  factory CustomerReview.fromMap(Map<String, dynamic> map) {
+    return CustomerReview(
+      customerName: map['customerName'],
+      customerOrderId: map['customerOrderId'],
+      customerRating: map['customerRating'],
+      customerReview: map['customerReview'],
+      customerUID: map['customerUID'],
+    );
   }
 }

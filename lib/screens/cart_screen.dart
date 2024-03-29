@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:handyman/models/user.dart';
+import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/booknow_screen.dart';
 import 'package:handyman/screens/home_screen.dart';
 import 'package:handyman/utils/app_colors.dart';
@@ -56,7 +57,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   }
 
   Widget buildCartItems() {
-    User? user = ref.watch(userProvider);
+    User? user = ref.watch(userStateNotifierProvider);
 
     return Column(
       children: [
@@ -98,7 +99,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                               horizontal: 10, vertical: 2)),
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: ((context) => BookNowScreen(serviceProviderUID: cartItem.serviceProviderUID,serviceCategoryName: cartItem.serviceCategoryName, serviceCategoryUID: cartItem.serviceCategoryUID ,serviceProviderName: cartItem.serviceProviderName ,subCategoryServiceName: cartItem.serviceCategoryName,subCategoryServiceUID: cartItem.subCategoryServiceUID,
-                        cost: cartItem.cost,) )));
+                        cost: cartItem.cost.toString(),) )));
                       },
                       child: Text(
                         'Check Out',

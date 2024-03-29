@@ -278,7 +278,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       alignment: Alignment.center,
                       child: Text('Sign Up')),
                 ),
-                _huildPhoneSignup()
+                //  _huildPhoneSignup()
               ],
             )
           ],
