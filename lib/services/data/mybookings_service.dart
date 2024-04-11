@@ -16,18 +16,22 @@ class MyBookingsProvider extends ChangeNotifier {
           await _firestore.collection('users').doc(userId).get();
 
       List<String> myOrdersUIDs =
-          await userSnapshot.get('myOrders')?.cast<String>() ?? [];
-
+          userSnapshot.data()?['myOrders']?.cast<String>() ?? [];
+      print(myOrdersUIDs);
       List<BookingModel> myBookings = [];
 
       for (String uid in myOrdersUIDs) {
         DocumentSnapshot orderSnapshot =
             await _firestore.collection('orders').doc(uid).get();
         if (orderSnapshot.exists) {
-          BookingModel booking = BookingModel.fromMap(
-              orderSnapshot.data() as Map<String, dynamic>);
-          myBookings.add(booking);
-          notifyListeners();
+          Map<String, dynamic>? orderData =
+              orderSnapshot.data() as Map<String, dynamic>?;
+          if (orderData != null) {
+            BookingModel booking = BookingModel.fromMap(orderData);
+            myBookings.add(booking);
+          } else {
+            print('Order with UID $uid does not exist.');
+          }
         } else {
           print('Order with UID $uid does not exist.');
         }

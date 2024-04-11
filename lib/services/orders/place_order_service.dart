@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:handyman/models/bookings_model.dart';
 import 'package:handyman/models/service_provider_model.dart';
+import 'package:handyman/models/time_slots_model.dart';
 import 'package:handyman/models/user.dart';
 
 class OrderServices {
@@ -14,6 +15,7 @@ class OrderServices {
     String serviceCost,
     String serviceName,
     String serviceSubCategoryName,
+    TimeSlots timeSlots
   ) async {
     try {
       Future<double> calculateDistance(
@@ -60,7 +62,10 @@ class OrderServices {
         'providerLatitude': serviceProvider.latitude,
         'providerLocation': serviceProvider.location,
         'providerLongitude': serviceProvider.longitude,
+        'deviceTokenCustomer': user.deviceToken,
+        'deviceTokenProvider': serviceProvider.deviceToken,
         'review': '',
+        'timeSlots': timeSlots.toMap(),
         'status': initialOrderStatus.toString(),
         'serviceCost': serviceCost.toString(),
         'serviceLocation': user.location,

@@ -2,12 +2,15 @@ class ServiceProvider {
  final String name;
   final String photo;
   final String? gstNumber;
-  final String aadharCard;
-  final String experience;
-  final String location;
-  final String? email;
-  final String panCard;
-  final String phoneNumber;
+  String? aadharCard;
+  String? experience;
+  String? location;
+  String? email;
+  String? panCard;
+  String? phoneNumber;
+  List<String>? ordersCancelled;
+  List<String>? ordersCompleted;
+  List<String>? ordersInProgress;
   final num wallet;
   final String rating;
   List<Services>? services;
@@ -20,39 +23,47 @@ class ServiceProvider {
   final String deviceToken;
   final String referralCode;
   final num totalEarnings;
+  final bool isVerified;
 
   ServiceProvider(
       { this.gstNumber,
-    required this.wallet,
-    required this.aadharCard,
-    required this.experience,
-    required this.location,
-    required this.referralCode,
-    this.email,
-    required this.name,
-    this.aadharCardPhoto,
-    required this.uid,
-    required this.panCard,
-    required this.isGoogleUser,
-    required this.phoneNumber,
-    required this.photo,
-    required this.rating,
-    this.services,
-    required this.totalServices,
-    required this.latitude,
-    required this.deviceToken,
-    required this.longitude,
-    required this.totalEarnings});
+      required this.wallet,
+      this.aadharCard,
+      this.experience,
+      required this.location,
+      required this.referralCode,
+      this.email,
+      this.ordersInProgress,
+      this.ordersCompleted,
+      this.ordersCancelled,
+      required this.name,
+      this.aadharCardPhoto,
+      required this.uid,
+      this.panCard,
+      required this.isGoogleUser,
+      this.phoneNumber,
+      required this.photo,
+      required this.rating,
+      this.services,
+      required this.totalServices,
+      required this.latitude,
+      required this.deviceToken,
+      required this.longitude,
+      required this.totalEarnings,
+      required this.isVerified});
 
   factory ServiceProvider.fromMap(Map<String, dynamic> map) {
     return ServiceProvider(
- gstNumber: map['GSTNumber'] ?? "none",
+  gstNumber: map['gstNumber'] ?? "none",
         aadharCardPhoto: map['aadharCardPhoto'] ?? "",
         wallet: map['wallet'] ?? 0,
         email: map['email'] ?? "none",
         aadharCard: map['aadharCard'] ?? "",
         experience: map['experience'] ?? "",
         location: map['location'] ?? "",
+        ordersInProgress: List<String>.from(map['ordersInProgress']),
+        ordersCompleted: List<String>.from(map['ordersCompleted']),
+        ordersCancelled: List<String>.from(map['ordersCancelled']),
         referralCode: map['referralCode'] ?? "",
         name: map['name'] ?? "",
         uid: map['uid'] ?? "",
@@ -64,12 +75,13 @@ class ServiceProvider {
         rating: map['rating'] ?? "",
         deviceToken: map['deviceToken'] ?? "",
         longitude: map['longitude'] ?? 0,
-           services: (map['services'] as List<dynamic>)
+        services: (map['services'] as List<dynamic>)
                 .map((serviceCategories) => Services.fromMap(serviceCategories))
                 .toList() ??
             [],
-        totalServices: map['totalServices'] ?? "",
-        totalEarnings:map['totalEarnings']?? 0);
+        totalServices: map['totalServices'] ?? 0,
+        totalEarnings: map['totalEarnings'] ?? 0,
+        isVerified: map['isVerified'] ?? false);
   
   }
 }
@@ -85,8 +97,8 @@ class Services {
     required this.serviceModelName,
     required this.serviceModelUID,
     this.serviceName,
-     this.serviceUID,
-     this.subServiceCategories,
+    this.serviceUID,
+    this.subServiceCategories,
   });
 
   factory Services.fromMap(Map<String, dynamic> map) {
@@ -111,7 +123,7 @@ class SubService {
   final String subCategoryServiceName;
   final String serviceCategoryUID;
   final String subCategoryServiceUID;
-  final List<String> customerReviews;
+  final List<CustomerReview> customerReviews;
   final String rate;
 
   SubService({
@@ -123,10 +135,11 @@ class SubService {
   });
 
   factory SubService.fromMap(Map<String, dynamic> map) {
-    List<String> reviews = [];
+    List<CustomerReview> reviews = [];
     if (map['customerReviews'] != null) {
       var reviewList = map['customerReviews'] as List;
-      reviews = reviewList.map((review) => review.toString()).toList();
+      reviews =
+          reviewList.map((review) => CustomerReview.fromMap(review)).toList();
     }
     return SubService(
       subCategoryServiceName: map['subCategoryServiceName'],
@@ -137,7 +150,6 @@ class SubService {
     );
   }
 }
-
 
 class CustomerReview {
   final String customerName;

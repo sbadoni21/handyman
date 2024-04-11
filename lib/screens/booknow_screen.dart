@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:handyman/models/service_provider_model.dart';
+import 'package:handyman/models/time_slots_model.dart';
 import 'package:handyman/models/user.dart';
 import 'package:handyman/notifier/user_state_notifier.dart';
 import 'package:handyman/screens/bookings_serviceprovider_confirmation_screen.dart';
 import 'package:handyman/screens/home_screen.dart';
+import 'package:handyman/services/data/timeslot_service.dart';
 import 'package:handyman/services/orders/place_order_service.dart';
 import 'package:handyman/utils/app_colors.dart';
 import 'package:handyman/widgets/customappbar.dart';
@@ -21,27 +23,33 @@ class BookNowScreen extends ConsumerStatefulWidget {
   final String subCategoryServiceUID;
   final String cost;
 
-  const BookNowScreen(
-      {Key? key,
-      required this.serviceProviderUID,
-      required this.serviceCategoryName,
-      required this.serviceCategoryUID,
-      required this.serviceProviderName,
-      required this.subCategoryServiceName,
-      required this.subCategoryServiceUID,
-      required this.cost})
-      : super(key: key);
+  const BookNowScreen({
+    Key? key,
+    required this.serviceProviderUID,
+    required this.serviceCategoryName,
+    required this.serviceCategoryUID,
+    required this.serviceProviderName,
+    required this.subCategoryServiceName,
+    required this.subCategoryServiceUID,
+    required this.cost,
+  }) : super(key: key);
+
   @override
   _BookNowScreenState createState() => _BookNowScreenState();
 }
 
 class _BookNowScreenState extends ConsumerState<BookNowScreen> {
+  late Future<List<TimeSlots>> _timeSlotsFuture;
+  TimeSlots? _selectedTimeSlot;
+
   @override
   void initState() {
     super.initState();
+    _timeSlotsFuture = TimeSlotsService().getTimeSlots();
   }
 
   bool isBooking = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,22 +63,26 @@ class _BookNowScreenState extends ConsumerState<BookNowScreen> {
                 User? user = ref.read(userStateNotifierProvider);
                 String bookingId = randomAlphaNumeric(10);
                 await OrderServices().addOrder(
-                    user!,
-                    widget.serviceProviderUID,
-                    bookingId,
-                    widget.cost,
-                    widget.serviceCategoryName,
-                    widget.subCategoryServiceName);
+                  user!,
+                  widget.serviceProviderUID,
+                  bookingId,
+                  widget.cost,
+                  widget.serviceCategoryName,
+                  widget.subCategoryServiceName,
+                  _selectedTimeSlot!,
+                );
                 setState(() {
                   isBooking = false;
                 });
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            BookingServiceProviderConfirmationScreen(
-                              bookingID: bookingId,
-                            )));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        BookingServiceProviderConfirmationScreen(
+                      bookingID: bookingId,
+                    ),
+                  ),
+                );
               },
               child: Text(
                 'Book Now',
@@ -88,7 +100,7 @@ class _BookNowScreenState extends ConsumerState<BookNowScreen> {
             SizedBox(
               height: 10,
             ),
-            // _buildReviews()
+            _buildTimeSlots(),
           ],
         ),
       ),
@@ -120,7 +132,9 @@ class _BookNowScreenState extends ConsumerState<BookNowScreen> {
     User? user = ref.read(userStateNotifierProvider);
     return Container(
       decoration: const BoxDecoration(
-          color: bgColor, borderRadius: BorderRadius.all(Radius.circular(20))),
+        color: bgColor,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -141,6 +155,54 @@ class _BookNowScreenState extends ConsumerState<BookNowScreen> {
       ),
     );
   }
+
+  Widget _buildTimeSlots() {
+    return FutureBuilder<List<TimeSlots>>(
+      future: _timeSlotsFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          List<TimeSlots> timeSlots = snapshot.data!;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 16),
+              Text(
+                'Available Time Slots',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: timeSlots.length,
+                itemBuilder: (context, index) {
+                  TimeSlots slot = timeSlots[index];
+                  return RadioListTile<TimeSlots>(
+                    title: Text(
+                      '${slot.slotName}: ${slot.startTime} - ${slot.endTime}',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    value: slot,
+                    groupValue: _selectedTimeSlot,
+                    onChanged: (TimeSlots? value) {
+                      setState(() {
+                        _selectedTimeSlot = value;
+                      });
+                    },
+                  );
+                },
+              ),
+            ],
+          );
+        }
+      },
+    );
+  }
+}
 
   // Widget _buildReviews() {
   //   return Container(
@@ -200,4 +262,4 @@ class _BookNowScreenState extends ConsumerState<BookNowScreen> {
   //     ),
   //   );
   // }
-}
+

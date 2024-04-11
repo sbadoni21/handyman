@@ -10,15 +10,21 @@ class OrderStatusService {
           await _firestore.collection('orders').doc(bookingID).get();
       OrderStatusModel initialOrderStatus =
           OrderStatusModel(OrderStatus.initiated);
-      OrderStatusModel confirmedOrderStatus =
-          OrderStatusModel(OrderStatus.confirmed);
+      OrderStatusModel inProgressOrderStatus =
+          OrderStatusModel(OrderStatus.inProgress);
       if (documentSnapshot.exists &&
           documentSnapshot.data()?['status'] == initialOrderStatus.toString()) {
         return initialOrderStatus.toString();
       } else if (documentSnapshot.exists &&
           documentSnapshot.data()?['status'] ==
-              confirmedOrderStatus.toString()) {
-        return confirmedOrderStatus.toString();
+              inProgressOrderStatus.toString()) {
+        String? userID = documentSnapshot.data()?['userID'];
+        if (userID != null) {
+          await _firestore.collection('users').doc(userID).update({
+            'myOrders': FieldValue.arrayUnion([bookingID]),
+          });
+        }
+        return inProgressOrderStatus.toString();
       } else {
         return null;
       }

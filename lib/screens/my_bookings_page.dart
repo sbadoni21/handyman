@@ -24,7 +24,6 @@ class _MyBookingsState extends ConsumerState<MyBookings> {
   @override
   void initState() {
     super.initState();
-    User? user = ref.read(userStateNotifierProvider);
   }
 
   @override
@@ -56,7 +55,7 @@ class _MyBookingsState extends ConsumerState<MyBookings> {
 
   Widget _buildMyBookingsProvider() {
     User? user = ref.read(userStateNotifierProvider);
-
+    print(user!.myOrders);
     return FutureBuilder<List<BookingModel>>(
       future: MyBookingsProvider().getBookingsUsers(user!.uid),
       builder: (context, snapshot) {

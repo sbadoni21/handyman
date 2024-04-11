@@ -88,6 +88,7 @@ class _ServiceProviderDetailsPageState
                               context,
                               MaterialPageRoute(
                                 builder: (context) => BookNowScreen(
+                                 
                                   serviceProviderUID:
                                       widget.serviceProvider.uid,
                                   serviceCategoryName:

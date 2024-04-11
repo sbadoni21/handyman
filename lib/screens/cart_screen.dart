@@ -98,8 +98,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 2)),
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: ((context) => BookNowScreen(serviceProviderUID: cartItem.serviceProviderUID,serviceCategoryName: cartItem.serviceCategoryName, serviceCategoryUID: cartItem.serviceCategoryUID ,serviceProviderName: cartItem.serviceProviderName ,subCategoryServiceName: cartItem.serviceCategoryName,subCategoryServiceUID: cartItem.subCategoryServiceUID,
-                        cost: cartItem.cost.toString(),) )));
+                        // Navigator.push(context, MaterialPageRoute(builder: ((context) => BookNowScreen(serviceProviderUID: cartItem.serviceProviderUID,serviceCategoryName: cartItem.serviceCategoryName, serviceCategoryUID: cartItem.serviceCategoryUID ,serviceProviderName: cartItem.serviceProviderName ,subCategoryServiceName: cartItem.serviceCategoryName,subCategoryServiceUID: cartItem.subCategoryServiceUID,
+                        // cost: cartItem.cost.toString(),) )));
                       },
                       child: Text(
                         'Check Out',

@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:handyman/models/time_slots_model.dart';
 
 class BookingModel {
   final num distance;
   final num providerLatitude;
   final String providerLocation;
   final num providerLongitude;
+  final String deviceTokenCustomer;
+  final String deviceTokenProvider;
+  final TimeSlots timeSlot;
   String review;
   final String serviceCost;
   final String serviceLocation;
@@ -19,9 +23,12 @@ class BookingModel {
   final String bookingUID;
   BookingModel(
       {required this.distance,
+      required this.deviceTokenProvider,
       required this.providerLatitude,
       required this.providerLocation,
       required this.providerLongitude,
+      required this.deviceTokenCustomer,
+      required this.timeSlot,
       required this.review,
       required this.serviceCost,
       required this.serviceLocation,
@@ -38,6 +45,9 @@ class BookingModel {
   factory BookingModel.fromMap(Map<String, dynamic> map) {
     return BookingModel(
         distance: map['distance'] ?? 0.0,
+        timeSlot: TimeSlots.fromMap(map['timeSlot']),
+        deviceTokenProvider: map['deviceTokenProvider'],
+        deviceTokenCustomer: map['deviceToken'],
         providerLatitude: map['providerLatitude'] ?? 0.0,
         providerLocation: map['providerLocation'] ?? "",
         providerLongitude: map['providerLongitude'] ?? 0.0,
@@ -60,8 +70,11 @@ class BookingModel {
       'distance': distance,
       'providerLatitude': providerLatitude,
       'providerLocation': providerLocation,
+      'deviceTokenProvider': deviceTokenProvider,
       'providerLongitude': providerLongitude,
       'review': review,
+      'timeSlot':timeSlot,
+      'deviceToken': deviceTokenCustomer,
       'serviceCost': serviceCost,
       'serviceLocation': serviceLocation,
       'serviceLocationLatitude': serviceLocationLatitude,
@@ -76,22 +89,27 @@ class BookingModel {
     };
   }
 }
+
 enum OrderStatus {
   initiated,
-  confirmed,
+  inProgress,
+  delivered,
 }
 
 class OrderStatusModel {
   final OrderStatus status;
- OrderStatusModel(this.status);
+  OrderStatusModel(this.status);
   factory OrderStatusModel.fromString(String statusString) {
     OrderStatus orderStatus;
     switch (statusString.toLowerCase()) {
       case 'initiated':
         orderStatus = OrderStatus.initiated;
         break;
-      case 'confirmed':
-        orderStatus = OrderStatus.confirmed;
+      case 'inProgress':
+        orderStatus = OrderStatus.inProgress;
+        break;
+          case 'delivered':
+        orderStatus = OrderStatus.delivered;
         break;
       default:
         throw ArgumentError('Invalid order status: $statusString');
@@ -102,6 +120,6 @@ class OrderStatusModel {
 
   @override
   String toString() {
-    return status.toString().split('.').last; // Remove enum type prefix
+    return status.toString().split('.').last;
   }
 }
