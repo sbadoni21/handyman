@@ -57,7 +57,7 @@ class _MyBookingsState extends ConsumerState<MyBookings> {
     User? user = ref.read(userStateNotifierProvider);
     print(user!.myOrders);
     return FutureBuilder<List<BookingModel>>(
-      future: MyBookingsProvider().getBookingsUsers(user!.uid),
+      future: MyBookingsProvider().getBookingsUsers(user.uid),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
