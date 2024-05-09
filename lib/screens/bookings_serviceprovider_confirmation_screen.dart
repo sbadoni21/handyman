@@ -50,7 +50,8 @@ class _BookingServiceProviderConfirmationScreenState
         children: [
           status == OrderStatusModel(OrderStatus.initiated).toString()
               ? Lottie.asset('assets/lottie/waiting_for_confirmation.json')
-              : Lottie.asset('assets/lottie/confirmation.json'),
+              :  status == OrderStatusModel(OrderStatus.cancelled).toString() ?
+               Lottie.asset('assets/lottie/cancelledorder.json') :  Lottie.asset('assets/lottie/confirmation.json')  ,
           Center(
             child: LinearPercentIndicator(
               width: MediaQuery.of(context).size.width - 40,

@@ -12,10 +12,18 @@ class OrderStatusService {
           OrderStatusModel(OrderStatus.initiated);
       OrderStatusModel inProgressOrderStatus =
           OrderStatusModel(OrderStatus.confirmed);
+               OrderStatusModel cancelled =
+          OrderStatusModel(OrderStatus.cancelled);
       if (documentSnapshot.exists &&
           documentSnapshot.data()?['status'] == initialOrderStatus.toString()) {
         return initialOrderStatus.toString();
       } else if (documentSnapshot.exists &&
+          documentSnapshot.data()?['status'] ==
+              cancelled.toString()) {
+       
+      
+        return cancelled.toString();
+      }else if (documentSnapshot.exists &&
           documentSnapshot.data()?['status'] ==
               inProgressOrderStatus.toString()) {
         String? userID = documentSnapshot.data()?['userID'];
@@ -25,11 +33,22 @@ class OrderStatusService {
           });
         }
         return inProgressOrderStatus.toString();
-      } else {
+      }  else {
         return null;
       }
     } catch (e) {
       return null;
     }
   }
+
+
+
+
+
+
+
+
+
+
+  
 }

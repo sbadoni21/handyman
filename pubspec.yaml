@@ -113,6 +113,7 @@ flutter:
         - assets/lottie/error404.json
         - assets/lottie/refer.json
         - assets/lottie/thankyou.json
+        - assets/lottie/cancelledorder.json
 
 
 
