@@ -11,7 +11,7 @@ class OrderStatusService {
       OrderStatusModel initialOrderStatus =
           OrderStatusModel(OrderStatus.initiated);
       OrderStatusModel inProgressOrderStatus =
-          OrderStatusModel(OrderStatus.inProgress);
+          OrderStatusModel(OrderStatus.confirmed);
       if (documentSnapshot.exists &&
           documentSnapshot.data()?['status'] == initialOrderStatus.toString()) {
         return initialOrderStatus.toString();

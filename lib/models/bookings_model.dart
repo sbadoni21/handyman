@@ -41,7 +41,6 @@ class BookingModel {
       required this.timeOfBooking,
       required this.status,
       required this.bookingUID});
-
   factory BookingModel.fromMap(Map<String, dynamic> map) {
     return BookingModel(
         distance: map['distance'] ?? 0.0,
@@ -64,7 +63,6 @@ class BookingModel {
         bookingUID: map['bookingUID'],
         status: map['status']);
   }
-
   Map<String, dynamic> toMap() {
     return {
       'distance': distance,
@@ -73,7 +71,7 @@ class BookingModel {
       'deviceTokenProvider': deviceTokenProvider,
       'providerLongitude': providerLongitude,
       'review': review,
-      'timeSlot':timeSlot,
+      'timeSlot': timeSlot,
       'deviceToken': deviceTokenCustomer,
       'serviceCost': serviceCost,
       'serviceLocation': serviceLocation,
@@ -89,13 +87,7 @@ class BookingModel {
     };
   }
 }
-
-enum OrderStatus {
-  initiated,
-  inProgress,
-  delivered,
-}
-
+enum OrderStatus { initiated, confirmed, inProgress, completed, cancelled }
 class OrderStatusModel {
   final OrderStatus status;
   OrderStatusModel(this.status);
@@ -105,11 +97,16 @@ class OrderStatusModel {
       case 'initiated':
         orderStatus = OrderStatus.initiated;
         break;
+      case 'confirmed':
+        orderStatus = OrderStatus.confirmed;
+        break;
       case 'inProgress':
         orderStatus = OrderStatus.inProgress;
         break;
-          case 'delivered':
-        orderStatus = OrderStatus.delivered;
+      case 'completed':
+        orderStatus = OrderStatus.completed;
+      case 'cancelled':
+        orderStatus = OrderStatus.cancelled;
         break;
       default:
         throw ArgumentError('Invalid order status: $statusString');
@@ -117,7 +114,6 @@ class OrderStatusModel {
 
     return OrderStatusModel(orderStatus);
   }
-
   @override
   String toString() {
     return status.toString().split('.').last;
